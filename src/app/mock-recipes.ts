@@ -1,0 +1,118 @@
+import { RecipeModel } from './models';
+
+export const recipes: RecipeModel[] = [
+  {
+    id: 1,
+    name: 'Carbonara',
+    description: 'La pasta preferita dai romani... e non solo',
+    imgUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/33/Espaguetis_carbonara.jpg',
+    ingredients: [
+      {
+        name: 'Spaghetti',
+        quantity: 100,
+        unit: 'g',
+      },
+      {
+        name: 'Uova',
+        quantity: 2,
+        unit: 'each',
+      },
+      {
+        name: 'Guanciale',
+        quantity: 80,
+        unit: 'g',
+      },
+      {
+        name: 'Pecorino romano',
+        quantity: 30,
+        unit: 'g',
+      },
+      {
+        name: 'Pepe nero',
+        quantity: 1,
+        unit: 'pinch',
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: 'Penne all’Arrabbiata',
+    description: 'Un classico romano dal gusto deciso e piccante — perfetto per chi ama il peperoncino.',
+    imgUrl: 'https://figandoliveplatter.com/wp-content/uploads/2021/10/MG_7375.jpg',
+    ingredients: [
+      { name: 'Penne (lisce o rigate)', quantity: 100, unit: 'g' },
+      { name: 'Pomodori pelati', quantity: 200, unit: 'g' },
+      { name: 'Aglio', quantity: 1, unit: 'clove' },
+      { name: 'Peperoncino (fresco o secco)', quantity: 1, unit: 'each' },
+      { name: 'Olio extravergine di oliva', quantity: 2, unit: 'tbsp' },
+      { name: 'Pecorino o Parmigiano grattugiato', quantity: 20, unit: 'g' },
+      { name: 'Sale', quantity: 1, unit: 'pinch' },
+      { name: 'Prezzemolo (opzionale)', quantity: 5, unit: 'g' },
+    ],
+  },
+  {
+    id: 3,
+    name: 'Pasta al Pesto alla Genovese',
+    description: 'Fresca, profumata e ligure — basilico, pinoli e formaggio per una salsa semplice e classica.',
+    imgUrl: 'https://media-assets.lacucinaitaliana.it/photos/620fbf30a4d64e19087d8b82/1:1/pass/undefined',
+    ingredients: [
+      { name: 'Pasta (trofie, trenette o cavatappi)', quantity: 100, unit: 'g' },
+      { name: 'Basilico fresco', quantity: 30, unit: 'g' },
+      { name: 'Pinoli', quantity: 15, unit: 'g' },
+      { name: 'Parmigiano Reggiano grattugiato', quantity: 20, unit: 'g' },
+      { name: 'Pecorino grattugiato', quantity: 10, unit: 'g' },
+      { name: 'Olio extravergine di oliva', quantity: 2, unit: 'tbsp' },
+      { name: 'Aglio', quantity: 1, unit: 'clove' },
+      { name: 'Sale grosso', quantity: 1, unit: 'pinch' },
+    ],
+  },
+  {
+    id: 4,
+    name: 'Spaghetti all’Amatriciana',
+    description: 'Guanciale, pomodoro e pecorino — un pilastro della cucina laziale.',
+    imgUrl: 'https://recipecontent.fooby.ch/28652_3-2_480-320.jpg',
+    ingredients: [
+      { name: 'Spaghetti o bucatini', quantity: 100, unit: 'g' },
+      { name: 'Guanciale', quantity: 150, unit: 'g' },
+      { name: 'Pecorino romano grattugiato', quantity: 25, unit: 'g' },
+      { name: 'Polpa di pomodoro (o passata)', quantity: 150, unit: 'g' },
+      { name: 'Peperoncino (facoltativo)', quantity: 1, unit: 'each' },
+      { name: 'Olio extravergine di oliva', quantity: 1, unit: 'tbsp' },
+      { name: 'Sale', quantity: 1, unit: 'pinch' },
+    ],
+  },
+  {
+    id: 5,
+    name: 'Risotto ai Funghi Porcini',
+    description: 'Risotto cremoso con funghi porcini profumati — perfetto nelle serate fredde.',
+    imgUrl: 'https://www.fortunatiantonio.it/wp-content/uploads/2015/05/shutterstock_116404021.jpg',
+    ingredients: [
+      { name: 'Riso Arborio (o Carnaroli)', quantity: 100, unit: 'g' },
+      { name: 'Funghi porcini freschi (o surgelati)', quantity: 120, unit: 'g' },
+      { name: 'Brodo vegetale', quantity: 500, unit: 'ml' },
+      { name: 'Burro', quantity: 20, unit: 'g' },
+      { name: 'Cipolla (o scalogno)', quantity: 30, unit: 'g' },
+      { name: 'Olio extravergine di oliva', quantity: 1, unit: 'tbsp' },
+      { name: 'Parmigiano Reggiano grattugiato', quantity: 20, unit: 'g' },
+      { name: 'Sale', quantity: 1, unit: 'pinch' },
+      { name: 'Prezzemolo (opzionale)', quantity: 5, unit: 'g' },
+    ],
+  },
+  {
+    id: 6,
+    name: 'Penne al Pomodoro e Basilico',
+    description: 'Pomodoro fresco, basilico e olio — semplice, leggera e molto italiana.',
+    imgUrl: 'https://orapesce.it/cdn/shop/articles/108db68259679306e769911ea92f6e73_1100x.jpg?v=1728481131',
+    ingredients: [
+      { name: 'Penne rigate', quantity: 100, unit: 'g' },
+      { name: 'Pomodori maturi', quantity: 200, unit: 'g' },
+      { name: 'Basilico fresco', quantity: 10, unit: 'g' },
+      { name: 'Aglio', quantity: 1, unit: 'clove' },
+      { name: 'Olio extravergine di oliva', quantity: 2, unit: 'tbsp' },
+      { name: 'Sale', quantity: 1, unit: 'pinch' },
+      { name: 'Pepe nero (macinato)', quantity: 1, unit: 'pinch' },
+      { name: 'Parmigiano grattugiato (facoltativo)', quantity: 15, unit: 'g' },
+    ],
+  },
+];
+
