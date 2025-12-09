@@ -1,41 +1,24 @@
-<article class="recipe">
-  <h2 class="recipe__title">
-    {{ recipe().name }}
-  </h2>
+<section>
+  <ul>
+    @for (recipe of recipes(); track recipe.id) {
+    <li>
+      <a role="button" (click)="selectRecipe(recipe.id)">
+        {{ recipe.name }}
+      </a>
+    </li>
+    }
+  </ul>
+</section>
 
-  <p class="recipe__description">
-    {{ recipe().description }}
-  </p>
-
-  <figure class="recipe__image">
-    <img [src]="recipe().imgUrl" [alt]="recipe().name" />
-  </figure>
-
-  <section class="recipe__ingredients">
-    <h3>Ingredienti</h3>
-    <ul>
-      @for (ingredient of adjustedIngredients(); track $index) {
-      <li class="recipe__ingredient">
-        <span class="recipe__ingredient-name">
-          {{ ingredient.name }}
-        </span>
-        <span class="recipe__ingredient-qty">
-          {{ ingredient.quantity }} {{ingredient.unit}}
-        </span>
-      </li>
-      }
-    </ul>
-  </section>
-</article>
+@if (selectedRecipeIndex() !== -1) {
+<app-recipe-detail [recipeIndex]="selectedRecipeIndex()" />
+} @else {
+  <h2>Seleziona la tua ricetta preferita.</h2>
+}
 
 <section class="recipe__actions">
   <div class="recipe__actions-group">
     <button class="btn btn--primary" (click)="onPrevRecipe()">Previous Recipe</button>
     <button class="btn btn--primary" (click)="onNextRecipe()">Next Recipe</button>
-  </div>
-
-  <div class="recipe__actions-group">
-    <button class="btn btn--secondary" (click)="onDecrementServings()">Decrement Servings</button>
-    <button class="btn btn--secondary" (click)="onIncrementServings()">Increment Servings</button>
   </div>
 </section>
