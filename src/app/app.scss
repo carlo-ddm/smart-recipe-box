@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  padding: 16px;
+  max-width: 480px;
+  margin: 0 auto;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-align: center; // centra i bottoni & titolo
+}
+
+h1 {
+  margin-bottom: 24px;
+  font-size: 1.6rem;
+}
