@@ -1,21 +1,42 @@
-<section>
-  <ul>
-    @for (recipe of recipes(); track recipe.id) {
-    <li>
-      <a role="button" (click)="selectRecipe(recipe.id)">
-        {{ recipe.name }}
-      </a>
-    </li>
-    }
-  </ul>
-</section>
+<section class="recipe-list">
+  <nav class="recipe-list__nav" aria-label="Elenco ricette">
+    <ul class="recipe-list__items">
+      @for (recipe of recipes(); track recipe.id) {
+      <li class="recipe-list__item">
+        <button
+          type="button"
+          class="recipe-list__link"
+          (click)="selectRecipe(recipe.id)"
+        >
+          {{ recipe.name }}
+        </button>
+      </li>
+      }
+    </ul>
+  </nav>
 
-@if (selectedRecipeIndex() > 0) {
-<app-recipe-detail [recipe]="recipe()" />
-<section class="recipe__actions">
-  <div class="recipe__actions-group">
-    <button class="btn btn--primary" (click)="onPrevRecipe()">Previous Recipe</button>
-    <button class="btn btn--primary" (click)="onNextRecipe()">Next Recipe</button>
-  </div>
+  @if (selectedRecipeIndex() > 0) {
+  <section class="recipe-list__detail">
+    <app-recipe-detail [recipe]="recipe()" />
+
+    <div class="recipe__actions">
+      <div class="recipe__actions-group">
+        <button
+          class="btn btn--primary"
+          type="button"
+          (click)="onPrevRecipe()"
+        >
+          Previous Recipe
+        </button>
+        <button
+          class="btn btn--primary"
+          type="button"
+          (click)="onNextRecipe()"
+        >
+          Next Recipe
+        </button>
+      </div>
+    </div>
+  </section>
+  }
 </section>
-}
