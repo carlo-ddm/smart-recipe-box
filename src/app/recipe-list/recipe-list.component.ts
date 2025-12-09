@@ -10,29 +10,32 @@ import { RecipeDetailComponent } from '../recipe-detail/recipe-detail.component'
   styleUrl: './recipe-list.component.scss',
 })
 export class RecipeListComponent {
-  recipes = signal<RecipeModel[]>(recipes);
-  selectedRecipeIndex = signal<number>(-1);
+  protected readonly recipes = signal<RecipeModel[]>(recipes);
+  protected readonly selectedRecipeIndex = signal<number>(1);
+  protected readonly recipe = computed(() => this.recipes()[this.selectedRecipeIndex() - 1]);
 
   selectRecipe(recipeId: number) {
     this.selectedRecipeIndex.set(recipeId);
   }
 
   onNextRecipe() {
-    // const nextRecipeIndex = recipes.indexOf(this.recipe()) + 1;
-    // const totalRecipes = recipes.length;
-    // if (nextRecipeIndex >= totalRecipes) {
-    //   this.recipe.set(recipes[0]);
-    //   return;
-    // }
-    // this.recipe.set(recipes[nextRecipeIndex]);
+    this.selectedRecipeIndex.update((index) => {
+      let nextRecipeIndex = index + 1;
+      const totalRecipes = this.recipes().length;
+      if (nextRecipeIndex > totalRecipes) {
+        return nextRecipeIndex - 1;
+      }
+      return nextRecipeIndex;
+    });
   }
 
   onPrevRecipe() {
-    // const previousRecipeIndex = recipes.indexOf(this.recipe()) - 1;
-    // if (previousRecipeIndex <= 0) {
-    //   this.recipe.set(recipes[recipes.length - 1]);
-    //   return;
-    // }
-    // this.recipe.set(recipes[previousRecipeIndex]);
+    this.selectedRecipeIndex.update((index) => {
+      const previousRecipeIndex = index - 1;
+      if (previousRecipeIndex <= 0) {
+        return index;
+      }
+      return previousRecipeIndex;
+    });
   }
 }

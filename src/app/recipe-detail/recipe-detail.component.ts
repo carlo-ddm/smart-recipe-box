@@ -1,5 +1,5 @@
 import { Component, computed, input, signal } from '@angular/core';
-import { recipes } from '../mock-recipes';
+import { RecipeModel } from '../models';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -8,11 +8,10 @@ import { recipes } from '../mock-recipes';
   styleUrl: './recipe-detail.component.scss',
 })
 export class RecipeDetailComponent {
-  recipeIndex = input.required<number>();
-  currentRecipe = computed(() => recipes[this.recipeIndex()]);
-  servings = signal<number>(1);
-  adjustedIngredients = computed(() =>
-    this.currentRecipe().ingredients.map((ingredient) => ({
+  readonly recipe = input.required<RecipeModel>();
+  protected readonly servings = signal<number>(1);
+  protected readonly adjustedIngredients = computed(() =>
+    this.recipe().ingredients.map((ingredient) => ({
       ...ingredient,
       quantity: ingredient.quantity * this.servings(),
     }))

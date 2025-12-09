@@ -10,15 +10,12 @@
   </ul>
 </section>
 
-@if (selectedRecipeIndex() !== -1) {
-<app-recipe-detail [recipeIndex]="selectedRecipeIndex()" />
-} @else {
-  <h2>Seleziona la tua ricetta preferita.</h2>
-}
-
+@if (selectedRecipeIndex() > 0) {
+<app-recipe-detail [recipe]="recipe()" />
 <section class="recipe__actions">
   <div class="recipe__actions-group">
     <button class="btn btn--primary" (click)="onPrevRecipe()">Previous Recipe</button>
     <button class="btn btn--primary" (click)="onNextRecipe()">Next Recipe</button>
   </div>
 </section>
+}

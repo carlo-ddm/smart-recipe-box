@@ -1,14 +1,14 @@
 <article class="recipe">
   <h2 class="recipe__title">
-    {{ currentRecipe().name }}
+    {{ recipe().name }}
   </h2>
 
   <p class="recipe__description">
-    {{ currentRecipe().description }}
+    {{ recipe().description }}
   </p>
 
   <figure class="recipe__image">
-    <img [src]="currentRecipe().imgUrl" [alt]="currentRecipe().name" />
+    <img [src]="recipe().imgUrl" [alt]="recipe().name" />
   </figure>
 
   <section class="recipe__ingredients">
