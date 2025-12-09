@@ -3,12 +3,10 @@
     <ul class="recipe-list__items">
       @for (recipe of recipes(); track recipe.id) {
       <li class="recipe-list__item">
-        <button
-          type="button"
-          class="recipe-list__link"
-          (click)="selectRecipe(recipe.id)"
-        >
-          {{ recipe.name }}
+        <button type="button" class="recipe-list__link" (click)="selectRecipe(recipe.id)">
+          <span [ngClass]="{ star: recipe.isFavorite }">
+            {{ recipe.name }}
+          </span>
         </button>
       </li>
       }
@@ -21,20 +19,10 @@
 
     <div class="recipe__actions">
       <div class="recipe__actions-group">
-        <button
-          class="btn btn--primary"
-          type="button"
-          (click)="onPrevRecipe()"
-        >
+        <button class="btn btn--primary" type="button" (click)="onPrevRecipe()">
           Previous Recipe
         </button>
-        <button
-          class="btn btn--primary"
-          type="button"
-          (click)="onNextRecipe()"
-        >
-          Next Recipe
-        </button>
+        <button class="btn btn--primary" type="button" (click)="onNextRecipe()">Next Recipe</button>
       </div>
     </div>
   </section>
