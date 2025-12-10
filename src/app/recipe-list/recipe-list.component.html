@@ -1,7 +1,23 @@
 <section class="recipe-list">
+  <div class="recipe-list__filter">
+    <label class="recipe-list__filter-label" for="recipe-search">
+      Cerca ricetta
+    </label>
+    <div class="recipe-list__filter-control">
+      <span class="recipe-list__filter-icon" aria-hidden="true">🔎</span>
+      <input
+        id="recipe-search"
+        type="search"
+        class="recipe-list__filter-input"
+        placeholder="Digita per filtrare…"
+        [ngModel]="searchRecipe()"
+        (ngModelChange)="searchRecipe.set($event)"
+      />
+    </div>
+  </div>
   <nav class="recipe-list__nav" aria-label="Elenco ricette">
     <ul class="recipe-list__items">
-      @for (recipe of recipes(); track recipe.id) {
+      @for (recipe of filteredRecipe(); track recipe.id) {
       <li class="recipe-list__item">
         <button type="button" class="recipe-list__link" (click)="selectRecipe(recipe.id)">
           <span [ngClass]="{ star: recipe.isFavorite }">

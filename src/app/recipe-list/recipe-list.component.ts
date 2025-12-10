@@ -2,10 +2,12 @@ import { Component, computed, signal } from '@angular/core';
 import { RecipeModel } from '../models';
 import { recipes } from '../mock-recipes';
 import { RecipeDetailComponent } from '../recipe-detail/recipe-detail.component';
+import { NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-recipe-list',
-  imports: [RecipeDetailComponent],
+  imports: [RecipeDetailComponent, NgClass, FormsModule],
   templateUrl: './recipe-list.component.html',
   styleUrl: './recipe-list.component.scss',
 })
@@ -13,6 +15,12 @@ export class RecipeListComponent {
   protected readonly recipes = signal<RecipeModel[]>(recipes);
   protected readonly selectedRecipeIndex = signal<number>(1);
   protected readonly recipe = computed(() => this.recipes()[this.selectedRecipeIndex() - 1]);
+  protected readonly searchRecipe = signal('');
+  protected readonly filteredRecipe = computed(() => {
+    return this.recipes().filter((recipe) =>
+      recipe.name.toLocaleLowerCase().includes(this.searchRecipe().toLocaleLowerCase())
+    );
+  });
 
   selectRecipe(recipeId: number) {
     this.selectedRecipeIndex.set(recipeId);
