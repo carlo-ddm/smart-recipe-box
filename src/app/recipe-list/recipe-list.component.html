@@ -3,6 +3,14 @@
     <aside class="recipe-list__panel" aria-label="Pannello di ricerca e ricette">
       <div class="recipe-list__panel-header">
         <p class="recipe-list__panel-title">Esplora ricette</p>
+        <button
+          class="recipe-list__cta"
+          type="button"
+          [routerLink]="['/add-recipe']"
+        >
+          <span class="recipe-list__cta-icon" aria-hidden="true">＋</span>
+          <span class="recipe-list__cta-text">Add Recipe</span>
+        </button>
       </div>
 
       <div class="recipe-list__filter">

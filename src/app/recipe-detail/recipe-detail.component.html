@@ -1,12 +1,17 @@
 <article class="recipe">
   <header class="recipe__header">
-    <h2 class="recipe__title">
-      {{ recipe()?.name }}
-    </h2>
+    <div class="recipe__header-top">
+      <div class="recipe__header-text">
+        <h2 class="recipe__title">
+          {{ recipe()?.name }}
+        </h2>
 
-    <p class="recipe__description">
-      {{ recipe()?.description }}
-    </p>
+        <p class="recipe__description">
+          {{ recipe()?.description }}
+        </p>
+      </div>
+
+    </div>
   </header>
 
   <figure class="recipe__image">

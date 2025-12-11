@@ -22,6 +22,21 @@
 
 .recipe__header {
   margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recipe__header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.recipe__header-text {
+  min-width: 0;
 }
 
 .recipe__title {

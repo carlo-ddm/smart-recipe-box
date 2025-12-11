@@ -1,5 +1,5 @@
 import { Component, computed, DestroyRef, inject, input, OnDestroy, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeModel } from '../models';
 import { RecipeService } from '../services/recipe.service';
 
@@ -11,6 +11,7 @@ import { RecipeService } from '../services/recipe.service';
 })
 export class RecipeDetailComponent implements OnDestroy {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private recipeService = inject(RecipeService);
   protected recipe = signal(this.recipeService.getRecipe(+this.route.snapshot.params['id']));
   private subscription = this.route.params.subscribe((p) => {
@@ -34,6 +35,10 @@ export class RecipeDetailComponent implements OnDestroy {
       return;
     }
     this.servings.update((n) => n - 1);
+  }
+
+  addRecipe() {
+    this.router.navigate(['add-recipe']);
   }
 
   ngOnDestroy(): void {
