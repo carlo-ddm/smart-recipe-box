@@ -6,7 +6,7 @@ import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/route
 
 @Component({
   selector: 'app-recipe-list',
-  imports: [NgClass, FormsModule, RouterLink, RouterOutlet],
+  imports: [FormsModule, RouterLink, RouterOutlet],
   templateUrl: './recipe-list.component.html',
   styleUrl: './recipe-list.component.scss',
 })

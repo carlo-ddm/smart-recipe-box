@@ -1,21 +1,28 @@
 :host {
   display: block;
-  padding: 24px 16px;
+  padding: 32px 18px;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 214, 182, 0.3), transparent 36%),
+    radial-gradient(circle at 82% 6%, rgba(156, 204, 101, 0.24), transparent 32%),
+    linear-gradient(180deg, #fdf7f2 0%, #f4f7fb 100%);
+  min-height: 100vh;
 }
 
 .app {
-  max-width: 960px;
+  max-width: 1240px;
   margin: 0 auto;
 }
 
 .app__header {
-  margin-bottom: 24px;
+  margin-bottom: 30px;
   text-align: center;
 }
 
 .app__title {
   margin: 0;
-  font-size: 1.8rem;
+  font-size: 2.1rem;
+  letter-spacing: 0.01em;
+  color: #1f2d3d;
 }
 
 .app__content {

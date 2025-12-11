@@ -1,44 +1,55 @@
 <section class="recipe-list">
-  <div class="recipe-list__filter">
-    <label class="recipe-list__filter-label" for="recipe-search"> Cerca ricetta </label>
-    <div class="recipe-list__filter-control">
-      <span class="recipe-list__filter-icon" aria-hidden="true">🔎</span>
-      <input
-        id="recipe-search"
-        type="search"
-        class="recipe-list__filter-input"
-        placeholder="Digita per filtrare…"
-        [ngModel]="searchRecipe()"
-        (ngModelChange)="searchRecipe.set($event)"
-      />
-    </div>
-  </div>
-  <nav class="recipe-list__nav" aria-label="Elenco ricette">
-    <ul class="recipe-list__items">
-      @for (recipe of filteredRecipe(); track recipe.id) {
-      <li class="recipe-list__item">
-        <a type="button" class="recipe-list__link" [routerLink]="['/recipes', recipe.id]">
-          <span [ngClass]="{ star: recipe.isFavorite }">
-            {{ recipe.name }}
-          </span>
-        </a>
-      </li>
-      }
-    </ul>
-  </nav>
-  <main>
-    <section class="recipe-list__detail">
-      <router-outlet />
-      <div class="recipe__actions">
-        <div class="recipe__actions-group">
-          <button class="btn btn--primary" type="button" (click)="onPrevRecipe()">
-            Previous Recipe
-          </button>
-          <button class="btn btn--primary" type="button" (click)="onNextRecipe()">
-            Next Recipe
-          </button>
+  <div class="recipe-list__layout">
+    <aside class="recipe-list__panel" aria-label="Pannello di ricerca e ricette">
+      <div class="recipe-list__panel-header">
+        <p class="recipe-list__panel-title">Esplora ricette</p>
+      </div>
+
+      <div class="recipe-list__filter">
+        <div class="recipe-list__filter-control">
+          <span class="recipe-list__filter-icon" aria-hidden="true">🔎</span>
+          <input
+            id="recipe-search"
+            type="search"
+            class="recipe-list__filter-input"
+            placeholder="Cerca una ricetta…"
+            [ngModel]="searchRecipe()"
+            (ngModelChange)="searchRecipe.set($event)"
+          />
         </div>
       </div>
+
+      <nav class="recipe-list__nav" aria-label="Elenco ricette">
+        <ul class="recipe-list__items">
+          @for (recipe of filteredRecipe(); track recipe.id) {
+          <li class="recipe-list__item">
+            <a class="recipe-list__link" [routerLink]="['/recipes', recipe.id]">
+              <span class="recipe-list__link-text">
+                {{ recipe.name }}
+              </span>
+              @if (recipe.isFavorite) {
+              <span class="recipe-list__badge">Preferita</span>
+              }
+            </a>
+          </li>
+          }
+        </ul>
+      </nav>
+
+      <div class="recipe-list__nav-actions">
+        <button class="btn btn--primary" type="button" (click)="onPrevRecipe()">
+          Previous Recipe
+        </button>
+        <button class="btn btn--primary" type="button" (click)="onNextRecipe()">
+          Next Recipe
+        </button>
+      </div>
+    </aside>
+
+    <section class="recipe-list__detail">
+      <div class="recipe-list__detail-surface">
+        <router-outlet />
+      </div>
     </section>
-  </main>
+  </div>
 </section>
