@@ -1,8 +1,6 @@
 <section class="recipe-list">
   <div class="recipe-list__filter">
-    <label class="recipe-list__filter-label" for="recipe-search">
-      Cerca ricetta
-    </label>
+    <label class="recipe-list__filter-label" for="recipe-search"> Cerca ricetta </label>
     <div class="recipe-list__filter-control">
       <span class="recipe-list__filter-icon" aria-hidden="true">🔎</span>
       <input
@@ -19,28 +17,28 @@
     <ul class="recipe-list__items">
       @for (recipe of filteredRecipe(); track recipe.id) {
       <li class="recipe-list__item">
-        <button type="button" class="recipe-list__link" (click)="selectRecipe(recipe.id)">
+        <a type="button" class="recipe-list__link" [routerLink]="['/recipes', recipe.id]">
           <span [ngClass]="{ star: recipe.isFavorite }">
             {{ recipe.name }}
           </span>
-        </button>
+        </a>
       </li>
       }
     </ul>
   </nav>
-
-  @if (selectedRecipeIndex() > 0) {
-  <section class="recipe-list__detail">
-    <app-recipe-detail [recipe]="recipe()" />
-
-    <div class="recipe__actions">
-      <div class="recipe__actions-group">
-        <button class="btn btn--primary" type="button" (click)="onPrevRecipe()">
-          Previous Recipe
-        </button>
-        <button class="btn btn--primary" type="button" (click)="onNextRecipe()">Next Recipe</button>
+  <main>
+    <section class="recipe-list__detail">
+      <router-outlet />
+      <div class="recipe__actions">
+        <div class="recipe__actions-group">
+          <button class="btn btn--primary" type="button" (click)="onPrevRecipe()">
+            Previous Recipe
+          </button>
+          <button class="btn btn--primary" type="button" (click)="onNextRecipe()">
+            Next Recipe
+          </button>
+        </div>
       </div>
-    </div>
-  </section>
-  }
+    </section>
+  </main>
 </section>
