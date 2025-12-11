@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RecipeService } from '../services/recipe.service';
-import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-list',
@@ -11,6 +11,7 @@ import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './recipe-list.component.scss',
 })
 export class RecipeListComponent {
+  private router = inject(Router);
   private recipeService = inject(RecipeService);
   protected recipes = this.recipeService.getAllRecipe();
   protected readonly searchRecipe = signal('');
@@ -21,23 +22,24 @@ export class RecipeListComponent {
   });
 
   onNextRecipe() {
-    // this.selectedRecipeIndex.update((index) => {
-    //   let nextRecipeIndex = index + 1;
-    //   const totalRecipes = this.recipes().length;
-    //   if (nextRecipeIndex > totalRecipes) {
-    //     return nextRecipeIndex - 1;
-    //   }
-    //   return nextRecipeIndex;
-    // });
+    const all = this.recipes();
+    const currentIndex = this.recipeService.currentRecipeIndex();
+    // MDN: The Math.min() static method returns the smallest of the numbers given as input parameters, or Infinity if there are no parameters.
+    const nextIndex = Math.min(currentIndex + 1, all.length - 1);
+    const next = all[nextIndex];
+    if (next) {
+      this.router.navigate(['/recipes', next.id]);
+    }
   }
 
   onPrevRecipe() {
-    //   this.selectedRecipeIndex.update((index) => {
-    //     const previousRecipeIndex = index - 1;
-    //     if (previousRecipeIndex <= 0) {
-    //       return index;
-    //     }
-    //     return previousRecipeIndex;
-    //   });
+    const all = this.recipes();
+    const currentIndex = this.recipeService.currentRecipeIndex();
+    // MDN: The Math.max() static method returns the largest of the numbers given as input parameters, or -Infinity if there are no parameters.
+    const prevIndex = Math.max(currentIndex - 1, 0);
+    const prev = all[prevIndex];
+    if (prev) {
+      this.router.navigate(['/recipes', prev.id]);
+    }
   }
 }
