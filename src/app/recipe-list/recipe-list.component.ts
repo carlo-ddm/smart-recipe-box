@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RecipeService } from '../services/recipe.service';
@@ -10,7 +10,7 @@ import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/route
   templateUrl: './recipe-list.component.html',
   styleUrl: './recipe-list.component.scss',
 })
-export class RecipeListComponent {
+export class RecipeListComponent implements OnInit {
   private router = inject(Router);
   private recipeService = inject(RecipeService);
   protected recipes = this.recipeService.getAllRecipe();
@@ -20,6 +20,14 @@ export class RecipeListComponent {
       recipe.name.toLocaleLowerCase().includes(this.searchRecipe().toLocaleLowerCase())
     );
   });
+
+  ngOnInit(): void {
+    const all = this.recipes();
+    const currentIndex = this.recipeService.currentRecipeIndex();
+    if (all[currentIndex]) {
+      this.router.navigate(['/recipes', all[currentIndex].id]);
+    }
+  }
 
   onNextRecipe() {
     const all = this.recipes();

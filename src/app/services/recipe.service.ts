@@ -12,11 +12,4 @@ export class RecipeService {
   getAllRecipe() {
     return this.recipes.asReadonly(); // .asReadonly non sul valore, sul box (sul signal)
   }
-
-  getRecipe(id: number) {
-    const recipe = this.recipes().find((recipe) => recipe.id === id);
-    // salvo lo stato
-    this.currentRecipeIndex.set(this.recipes().findIndex((r) => r === recipe));
-    return recipe;
-  }
 }
