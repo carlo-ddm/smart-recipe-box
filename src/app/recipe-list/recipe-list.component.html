@@ -27,7 +27,7 @@
         <ul class="recipe-list__items">
           @for (recipe of filteredRecipe(); track recipe.id) {
           <li class="recipe-list__item">
-            <a class="recipe-list__link" [routerLink]="['/recipes', recipe.id]">
+            <a class="recipe-list__link" (click)="onSelectRecipe(recipe.id)">
               <span class="recipe-list__link-text">
                 {{ recipe.name }}
               </span>

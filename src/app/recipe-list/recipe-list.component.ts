@@ -1,8 +1,7 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RecipeService } from '../services/recipe.service';
-import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-list',
@@ -25,29 +24,34 @@ export class RecipeListComponent implements OnInit {
     const all = this.recipes();
     const currentIndex = this.recipeService.currentRecipeIndex();
     if (all[currentIndex]) {
-      this.router.navigate(['/recipes', all[currentIndex].id]);
+      this.router.navigate(['/', all[currentIndex].id]);
     }
+  }
+
+  onSelectRecipe(id: number) {
+    this.recipeService.currentRecipeIndex.set(id - 1);
+    this.router.navigate(['/', id]);
   }
 
   onNextRecipe() {
     const all = this.recipes();
     const currentIndex = this.recipeService.currentRecipeIndex();
-    // MDN: The Math.min() static method returns the smallest of the numbers given as input parameters, or Infinity if there are no parameters.
     const nextIndex = Math.min(currentIndex + 1, all.length - 1);
     const next = all[nextIndex];
-    if (next) {
-      this.router.navigate(['/recipes', next.id]);
+    if (nextIndex != currentIndex && currentIndex < all.length) {
+      this.recipeService.currentRecipeIndex.update((n) => n + 1);
+      this.router.navigate(['/', next.id]);
     }
   }
 
   onPrevRecipe() {
     const all = this.recipes();
     const currentIndex = this.recipeService.currentRecipeIndex();
-    // MDN: The Math.max() static method returns the largest of the numbers given as input parameters, or -Infinity if there are no parameters.
     const prevIndex = Math.max(currentIndex - 1, 0);
     const prev = all[prevIndex];
-    if (prev) {
-      this.router.navigate(['/recipes', prev.id]);
+    if (prevIndex < currentIndex) {
+      this.recipeService.currentRecipeIndex.update((n) => n - 1);
+      this.router.navigate(['/', prev.id]);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RecipeService } from '../services/recipe.service';
 
@@ -8,8 +8,8 @@ import { RecipeService } from '../services/recipe.service';
   templateUrl: './add-recipe.component.html',
   styleUrl: './add-recipe.component.scss',
 })
-export class AddRecipeComponent {
-  private router = inject(Router);
-  private recipeService = inject(RecipeService);
-  protected readonly rId = input.required<number>();
+export class AddRecipeComponent implements OnInit {
+  ngOnInit(): void {
+    console.log('check');
+  }
 }

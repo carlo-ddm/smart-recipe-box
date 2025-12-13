@@ -7,7 +7,7 @@ import { RecipeService } from '../services/recipe.service';
   templateUrl: './recipe-detail.component.html',
   styleUrl: './recipe-detail.component.scss',
 })
-export class RecipeDetailComponent implements OnInit {
+export class RecipeDetailComponent {
   private recipeService = inject(RecipeService);
   protected readonly rId = input.required<string>();
   protected recipe = computed(() => {
@@ -22,9 +22,6 @@ export class RecipeDetailComponent implements OnInit {
       quantity: ingredient.quantity * this.servings(),
     }))
   );
-
-  ngOnInit(): void {
-  }
 
   onIncrementServings() {
     this.servings.update((n) => n + 1);
