@@ -1,6 +1,12 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { RecipeService } from '../services/recipe.service';
-import { ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  ResolveFn,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { RecipeModel } from '../models';
 
 @Component({
@@ -35,8 +41,8 @@ export const resolveRecipe: ResolveFn<RecipeModel | null | UrlTree> = (
   activatedRouteSnapshot: ActivatedRouteSnapshot,
   _routerState: RouterStateSnapshot
 ) => {
-  const recipeService = inject(RecipeService);
   const router = inject(Router);
+  const recipeService = inject(RecipeService);
   const id = Number(activatedRouteSnapshot.paramMap.get('rId'));
 
   if (!Number.isFinite(id)) {
@@ -53,4 +59,23 @@ export const resolveRecipe: ResolveFn<RecipeModel | null | UrlTree> = (
   }
 
   return match;
+};
+
+export const resolveTitle: ResolveFn<string> = (
+  activatedRouteSnapshot: ActivatedRouteSnapshot,
+  _routerState: RouterStateSnapshot
+) => {
+  const recipeService = inject(RecipeService);
+  const id = Number(activatedRouteSnapshot.paramMap.get('rId'));
+
+  if (!Number.isFinite(id)) {
+    return 'Recipe not found';
+  }
+
+  const match =
+    recipeService
+      .getAllRecipe()()
+      .find((recipe) => recipe.id === id) ?? null;
+
+  return match?.name ?? 'Recipe not found';
 };

@@ -1,6 +1,10 @@
 import { Routes } from '@angular/router';
 import { RecipeListComponent } from './recipe-list/recipe-list.component';
-import { RecipeDetailComponent, resolveRecipe } from './recipe-detail/recipe-detail.component';
+import {
+  RecipeDetailComponent,
+  resolveRecipe,
+  resolveTitle,
+} from './recipe-detail/recipe-detail.component';
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 
 export const routes: Routes = [
@@ -17,6 +21,7 @@ export const routes: Routes = [
         resolve: {
           recipe: resolveRecipe,
         },
+        title: resolveTitle,
       },
     ],
   },
