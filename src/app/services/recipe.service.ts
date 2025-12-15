@@ -9,6 +9,6 @@ export class RecipeService {
   private readonly recipes = signal<RecipeModel[]>(recipes);
 
   getAllRecipe() {
-    return this.recipes.asReadonly(); // .asReadonly non sul valore, sul box (sul signal)
+    return this.recipes.asReadonly(); // .asReadonly is called on the signal itself, not on its value
   }
 }
