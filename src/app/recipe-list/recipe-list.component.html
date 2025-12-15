@@ -27,7 +27,13 @@
         <ul class="recipe-list__items">
           @for (recipe of filteredRecipe(); track recipe.id) {
           <li class="recipe-list__item">
-            <a class="recipe-list__link" (click)="onSelectRecipe(recipe.id)">
+            <a
+              class="recipe-list__link"
+              [routerLink]="[recipe.id]"
+              routerLinkActive="recipe-list__link--active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              [attr.aria-current]="isActiveRecipe(recipe.id) ? 'page' : null"
+            >
               <span class="recipe-list__link-text">
                 {{ recipe.name }}
               </span>
@@ -38,13 +44,21 @@
           </li>
           }
         </ul>
+        @if (filteredRecipe().length === 0) {
+        <div class="recipe-list__empty">
+          <p class="recipe-list__empty-title">Ricetta non trovata</p>
+          <p class="recipe-list__empty-text">Nessun risultato corrisponde al filtro corrente.</p>
+        </div>
+        }
       </nav>
 
       <div class="recipe-list__nav-actions">
-        <button class="btn btn--primary" type="button" (click)="onPrevRecipe()">
+        <button class="btn btn--primary" type="button" (click)="onPrevRecipe()" [disabled]="!canGoPrev()">
           Previous Recipe
         </button>
-        <button class="btn btn--primary" type="button" (click)="onNextRecipe()">Next Recipe</button>
+        <button class="btn btn--primary" type="button" (click)="onNextRecipe()" [disabled]="!canGoNext()">
+          Next Recipe
+        </button>
       </div>
     </aside>
 

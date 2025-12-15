@@ -1,15 +1,24 @@
 import { Routes } from '@angular/router';
 import { RecipeListComponent } from './recipe-list/recipe-list.component';
-import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
+import { RecipeDetailComponent, resolveRecipe } from './recipe-detail/recipe-detail.component';
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 
 export const routes: Routes = [
-  {
-    path: '', // show it immediately
-    component: RecipeListComponent,
-    pathMatch: 'full', //  TO FIX
-    children: [{ path: ':rId', component: RecipeDetailComponent }],
-  },
-
   { path: 'add-recipe', component: AddRecipeComponent },
+  {
+    path: '',
+    component: RecipeListComponent,
+    children: [
+      { path: '', pathMatch: 'full', redirectTo: '1' },
+      {
+        path: ':rId',
+        component: RecipeDetailComponent,
+        runGuardsAndResolvers: 'always',
+        resolve: {
+          recipe: resolveRecipe,
+        },
+      },
+    ],
+  },
+  { path: '**', redirectTo: '' },
 ];

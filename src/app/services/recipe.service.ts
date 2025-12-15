@@ -7,7 +7,6 @@ import { RecipeModel } from '../models';
 })
 export class RecipeService {
   private readonly recipes = signal<RecipeModel[]>(recipes);
-  currentRecipeIndex = signal<number>(0);
 
   getAllRecipe() {
     return this.recipes.asReadonly(); // .asReadonly non sul valore, sul box (sul signal)
