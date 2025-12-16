@@ -4,7 +4,9 @@
       <div>
         <p class="add-recipe__eyebrow">Nuova ricetta</p>
         <h1 class="add-recipe__title">Crea un piatto</h1>
-        <p class="add-recipe__subtitle">Aggiungi un nome, una descrizione e un’immagine per ispirare i tuoi utenti.</p>
+        <p class="add-recipe__subtitle">
+          Aggiungi un nome, una descrizione e un’immagine per ispirare i tuoi utenti.
+        </p>
       </div>
       <button class="add-recipe__chip" type="button">
         <span class="add-recipe__chip-icon" aria-hidden="true">＋</span>
@@ -27,7 +29,8 @@
             placeholder="Es. Lasagne al ragù"
             formControlName="recipeName"
           />
-          @if (form.controls.recipeName.invalid && (form.controls.recipeName.touched || form.controls.recipeName.dirty)) {
+          @if (form.controls.recipeName.invalid && (form.controls.recipeName.touched ||
+          form.controls.recipeName.dirty)) {
           <span class="add-recipe__error">Recipe name is required.</span>
           }
         </label>
@@ -45,7 +48,8 @@
             placeholder="https://..."
             formControlName="recipeImg"
           />
-          @if (form.controls.recipeImg.invalid && (form.controls.recipeImg.touched || form.controls.recipeImg.dirty)) {
+          @if (form.controls.recipeImg.invalid && (form.controls.recipeImg.touched ||
+          form.controls.recipeImg.dirty)) {
           <span class="add-recipe__error">Image URL is required.</span>
           }
         </label>
@@ -63,7 +67,8 @@
             placeholder="Scrivi una descrizione breve e invitante..."
             formControlName="recipeDescription"
           ></textarea>
-          @if (form.controls.recipeDescription.invalid && (form.controls.recipeDescription.touched || form.controls.recipeDescription.dirty)) {
+          @if (form.controls.recipeDescription.invalid && (form.controls.recipeDescription.touched
+          || form.controls.recipeDescription.dirty)) {
           <span class="add-recipe__error">Description is required.</span>
           }
         </label>
@@ -82,7 +87,8 @@
             value="1"
             formControlName="recipeServings"
           />
-          @if (form.controls.recipeServings.invalid && (form.controls.recipeServings.touched || form.controls.recipeServings.dirty)) {
+          @if (form.controls.recipeServings.invalid && (form.controls.recipeServings.touched ||
+          form.controls.recipeServings.dirty)) {
           <span class="add-recipe__error">Servings is required.</span>
           }
         </label>
@@ -120,7 +126,9 @@
                 <option value="pinch">pinch</option>
                 <option value="clove">clove</option>
               </select>
-              <button class="add-recipe__ghost" type="button" aria-label="Rimuovi ingrediente">×</button>
+              <button class="add-recipe__ghost" type="button" aria-label="Rimuovi ingrediente">
+                ×
+              </button>
             </div>
             <div class="add-recipe__ingredient-row">
               <input class="add-recipe__input" type="text" placeholder="Nome" />
@@ -134,14 +142,16 @@
                 <option value="pinch">pinch</option>
                 <option value="clove">clove</option>
               </select>
-              <button class="add-recipe__ghost" type="button" aria-label="Rimuovi ingrediente">×</button>
+              <button class="add-recipe__ghost" type="button" aria-label="Rimuovi ingrediente">
+                ×
+              </button>
             </div>
           </div>
         </div>
       </div>
 
       <footer class="add-recipe__actions">
-        <button class="btn btn--secondary" type="button">Annulla</button>
+        <button class="btn btn--secondary" type="button" (click)="onBackToList()">Annulla</button>
         <button class="btn btn--primary" type="submit">Salva ricetta</button>
       </footer>
     </form>
@@ -153,3 +163,16 @@
   </div>
   }
 </section>
+
+<app-confirmation-dialog>
+  <div dialogTitle>
+    <h1>Confirm header</h1>
+  </div>
+  <div dialogMessage>
+    <p>Message</p>
+  </div>
+  <div dialogActions>
+    <button type="button" (click)="closeDialog()">Annulla</button>
+    <button type="button" (click)="confirmDiscard()">Conferma</button>
+  </div>
+</app-confirmation-dialog>
