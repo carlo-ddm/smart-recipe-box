@@ -12,36 +12,90 @@
       </button>
     </header>
 
-    <form class="add-recipe__form" novalidate>
+    <form class="add-recipe__form" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="add-recipe__grid">
         <label class="add-recipe__field">
           <span class="add-recipe__label">Nome ricetta</span>
-          <input class="add-recipe__input" type="text" name="name" placeholder="Es. Lasagne al ragù" />
+          <input
+            class="add-recipe__input"
+            [class.add-recipe__input--invalid]="
+              form.controls.recipeName.invalid &&
+              (form.controls.recipeName.touched || form.controls.recipeName.dirty)
+            "
+            type="text"
+            name="name"
+            placeholder="Es. Lasagne al ragù"
+            formControlName="recipeName"
+          />
+          @if (form.controls.recipeName.invalid && (form.controls.recipeName.touched || form.controls.recipeName.dirty)) {
+          <span class="add-recipe__error">Recipe name is required.</span>
+          }
         </label>
 
         <label class="add-recipe__field">
           <span class="add-recipe__label">URL immagine</span>
-          <input class="add-recipe__input" type="url" name="imgUrl" placeholder="https://..." />
+          <input
+            class="add-recipe__input"
+            [class.add-recipe__input--invalid]="
+              form.controls.recipeImg.invalid &&
+              (form.controls.recipeImg.touched || form.controls.recipeImg.dirty)
+            "
+            type="url"
+            name="imgUrl"
+            placeholder="https://..."
+            formControlName="recipeImg"
+          />
+          @if (form.controls.recipeImg.invalid && (form.controls.recipeImg.touched || form.controls.recipeImg.dirty)) {
+          <span class="add-recipe__error">Image URL is required.</span>
+          }
         </label>
 
         <label class="add-recipe__field add-recipe__field--full">
           <span class="add-recipe__label">Descrizione</span>
-          <textarea class="add-recipe__textarea" name="description" rows="3" placeholder="Scrivi una descrizione breve e invitante..."></textarea>
+          <textarea
+            class="add-recipe__textarea"
+            [class.add-recipe__textarea--invalid]="
+              form.controls.recipeDescription.invalid &&
+              (form.controls.recipeDescription.touched || form.controls.recipeDescription.dirty)
+            "
+            name="description"
+            rows="3"
+            placeholder="Scrivi una descrizione breve e invitante..."
+            formControlName="recipeDescription"
+          ></textarea>
+          @if (form.controls.recipeDescription.invalid && (form.controls.recipeDescription.touched || form.controls.recipeDescription.dirty)) {
+          <span class="add-recipe__error">Description is required.</span>
+          }
         </label>
 
         <label class="add-recipe__field">
           <span class="add-recipe__label">Porzioni</span>
-          <input class="add-recipe__input" type="number" name="servings" min="1" value="1" />
+          <input
+            class="add-recipe__input"
+            [class.add-recipe__input--invalid]="
+              form.controls.recipeServings.invalid &&
+              (form.controls.recipeServings.touched || form.controls.recipeServings.dirty)
+            "
+            type="number"
+            name="servings"
+            min="1"
+            value="1"
+            formControlName="recipeServings"
+          />
+          @if (form.controls.recipeServings.invalid && (form.controls.recipeServings.touched || form.controls.recipeServings.dirty)) {
+          <span class="add-recipe__error">Servings is required.</span>
+          }
         </label>
 
         <div class="add-recipe__field add-recipe__field--toggle">
-          <span class="add-recipe__label">Segna come preferita</span>
-          <button class="add-recipe__toggle" type="button" aria-pressed="false">
-            <span class="add-recipe__toggle-track">
+          <span class="add-recipe__label" id="favorite-label">Segna come preferita</span>
+          <label class="add-recipe__toggle" aria-labelledby="favorite-label">
+            <input class="add-recipe__toggle-input" type="checkbox" formControlName="isFavourite" />
+            <span class="add-recipe__toggle-track" aria-hidden="true">
               <span class="add-recipe__toggle-thumb"></span>
             </span>
             <span class="add-recipe__toggle-text">Favorite</span>
-          </button>
+          </label>
         </div>
 
         <div class="add-recipe__field add-recipe__field--full">
@@ -92,4 +146,10 @@
       </footer>
     </form>
   </div>
+
+  @if (snackbarMessage()) {
+  <div class="add-recipe__snackbar" role="status" aria-live="polite">
+    {{ snackbarMessage() }}
+  </div>
+  }
 </section>

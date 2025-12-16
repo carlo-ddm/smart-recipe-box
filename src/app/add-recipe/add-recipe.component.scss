@@ -154,6 +154,20 @@
   }
 }
 
+.add-recipe__input--invalid,
+.add-recipe__textarea--invalid,
+.add-recipe__select--invalid {
+  border-color: rgba(192, 57, 43, 0.5);
+  background: #fff7f6;
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.12);
+}
+
+.add-recipe__error {
+  font-size: 0.85rem;
+  color: #c0392b;
+  font-weight: 600;
+}
+
 .add-recipe__textarea {
   resize: vertical;
   min-height: 140px;
@@ -168,6 +182,7 @@
 }
 
 .add-recipe__toggle {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -179,6 +194,13 @@
   font: inherit;
 }
 
+.add-recipe__toggle-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
 .add-recipe__toggle-track {
   position: relative;
   width: 42px;
@@ -186,6 +208,9 @@
   border-radius: 999px;
   background: #e5e7eb;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition:
+    background 0.16s ease,
+    box-shadow 0.16s ease;
 }
 
 .add-recipe__toggle-thumb {
@@ -205,6 +230,27 @@
 .add-recipe__toggle-text {
   font-size: 0.9rem;
   color: #4b5563;
+}
+
+.add-recipe__toggle-input:checked + .add-recipe__toggle-track {
+  background: linear-gradient(135deg, #ffd9b3, #ffc085);
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.12),
+    0 12px 24px rgba(255, 192, 133, 0.22);
+}
+
+.add-recipe__toggle-input:checked + .add-recipe__toggle-track .add-recipe__toggle-thumb {
+  transform: translateX(18px);
+}
+
+.add-recipe__toggle-input:checked ~ .add-recipe__toggle-text {
+  color: #3b2414;
+  font-weight: 650;
+}
+
+.add-recipe__toggle-input:focus-visible + .add-recipe__toggle-track {
+  outline: 2px solid #ff9800;
+  outline-offset: 2px;
 }
 
 .add-recipe__ingredients-header {
@@ -308,5 +354,40 @@
       grid-column: 1 / -1;
       justify-self: flex-start;
     }
+  }
+}
+
+.add-recipe__snackbar {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  width: min(520px, calc(100% - 28px));
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(31, 45, 61, 0.92);
+  color: #ffffff;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  text-align: center;
+  letter-spacing: 0.01em;
+  z-index: 50;
+  animation: add-recipe-snackbar-in 160ms ease-out;
+}
+
+@keyframes add-recipe-snackbar-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .add-recipe__snackbar {
+    animation: none;
   }
 }
