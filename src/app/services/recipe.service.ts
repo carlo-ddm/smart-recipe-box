@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { recipes } from '../mock-recipes';
-import { RecipeModel } from '../models';
+import { RecipeModel } from '../models/recipe.models';
 
 @Injectable({
   providedIn: 'root',

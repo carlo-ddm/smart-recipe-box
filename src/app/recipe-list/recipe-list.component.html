@@ -5,7 +5,7 @@
         <p class="recipe-list__panel-title">Esplora ricette</p>
         <button class="recipe-list__cta" type="button" [routerLink]="['/add-recipe']">
           <span class="recipe-list__cta-icon" aria-hidden="true">＋</span>
-          <span class="recipe-list__cta-text">Add Recipe</span>
+          <span class="recipe-list__cta-text">Aggiungi Ricetta</span>
         </button>
       </div>
 
@@ -53,11 +53,21 @@
       </nav>
 
       <div class="recipe-list__nav-actions">
-        <button class="btn btn--primary" type="button" (click)="onPrevRecipe()" [disabled]="!canGoPrev()">
-          Previous Recipe
+        <button
+          class="btn btn--primary"
+          type="button"
+          (click)="onPrevRecipe()"
+          [disabled]="!canGoPrev()"
+        >
+          Precedente
         </button>
-        <button class="btn btn--primary" type="button" (click)="onNextRecipe()" [disabled]="!canGoNext()">
-          Next Recipe
+        <button
+          class="btn btn--primary"
+          type="button"
+          (click)="onNextRecipe()"
+          [disabled]="!canGoNext()"
+        >
+          Prossima
         </button>
       </div>
     </aside>

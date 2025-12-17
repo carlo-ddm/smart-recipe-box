@@ -151,7 +151,9 @@
       </div>
 
       <footer class="add-recipe__actions">
-        <button class="btn btn--secondary" type="button" (click)="onBackToList()">Annulla</button>
+        <button class="btn btn--secondary" type="button" (click)="openConfirmDiscardDialog()">
+          Annulla
+        </button>
         <button class="btn btn--primary" type="submit">Salva ricetta</button>
       </footer>
     </form>
@@ -164,15 +166,21 @@
   }
 </section>
 
-<app-confirmation-dialog>
-  <div dialogTitle>
-    <h1>Confirm header</h1>
-  </div>
-  <div dialogMessage>
-    <p>Message</p>
-  </div>
-  <div dialogActions>
-    <button type="button" (click)="closeDialog()">Annulla</button>
-    <button type="button" (click)="confirmDiscard()">Conferma</button>
-  </div>
-</app-confirmation-dialog>
+@if (confirmationDialog()) {
+  <app-confirmation-dialog>
+    <div dialogTitle>
+      <h1>{{ confirmationDialog()?.title }}</h1>
+    </div>
+    <div dialogMessage>
+      <p>{{ confirmationDialog()?.message }}</p>
+    </div>
+    <div dialogActions>
+      <button class="btn btn--secondary" type="button" (click)="handleDialogDecision(false)">
+        Continua a modificare
+      </button>
+      <button class="btn btn--primary" type="button" (click)="handleDialogDecision(true)">
+        Scarta modifiche
+      </button>
+    </div>
+  </app-confirmation-dialog>
+}

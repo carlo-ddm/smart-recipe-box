@@ -7,7 +7,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { RecipeModel } from '../models';
+import { RecipeModel } from '../models/recipe.models';
 
 @Component({
   selector: 'app-recipe-detail',

@@ -1,7 +1,11 @@
 <div class="confirmation-dialog">
-  <ng-content select="[dialogTitle]"></ng-content>
-  <ng-content select="[dialogMessage]"></ng-content>
-  <div class="confirmation-dialog__actions">
+  <header class="confirmation-dialog__title">
+    <ng-content select="[dialogTitle]"></ng-content>
+  </header>
+  <section class="confirmation-dialog__body">
+    <ng-content select="[dialogMessage]"></ng-content>
+  </section>
+  <footer class="confirmation-dialog__actions">
     <ng-content select="[dialogActions]"></ng-content>
-  </div>
+  </footer>
 </div>

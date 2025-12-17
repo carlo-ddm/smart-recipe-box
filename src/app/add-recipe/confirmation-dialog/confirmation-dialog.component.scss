@@ -87,6 +87,10 @@
   display: contents;
 }
 
+.confirmation-dialog__actions ::ng-deep .btn {
+  min-width: 0;
+}
+
 .confirmation-dialog__actions ::ng-deep button:not(.btn) {
   cursor: pointer;
   font: inherit;
@@ -118,4 +122,15 @@
 .confirmation-dialog__actions ::ng-deep button:not(.btn):focus-visible {
   outline: 2px solid #ff9800;
   outline-offset: 2px;
+}
+
+@media (max-width: 420px) {
+  .confirmation-dialog__actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .confirmation-dialog__actions ::ng-deep button {
+    width: 100%;
+  }
 }
