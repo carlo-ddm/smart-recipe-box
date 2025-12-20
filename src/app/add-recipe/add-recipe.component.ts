@@ -1,6 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import {
-  AbstractControl,
   FormArray,
   FormControl,
   FormGroup,
@@ -10,7 +9,12 @@ import {
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialog } from '../models/diaolog.model';
-import { Ingredient } from '../models/recipe.models';
+
+type IngredientControls = {
+  name: FormControl<string>;
+  quantity: FormControl<number | null>;
+  unit: FormControl<string>;
+};
 
 @Component({
   selector: 'app-add-recipe',
@@ -21,13 +25,32 @@ import { Ingredient } from '../models/recipe.models';
 export class AddRecipeComponent implements OnInit {
   private router = inject(Router);
 
+  private createIngredientGroup() {
+    return new FormGroup<IngredientControls>({
+      name: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      quantity: new FormControl<number | null>(null, {
+        validators: [Validators.required, Validators.min(1)],
+      }),
+      unit: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+    });
+  }
+
   form = new FormGroup({
     recipeName: new FormControl('', { validators: [Validators.required] }),
     recipeImg: new FormControl('', { validators: [Validators.required] }),
     recipeDescription: new FormControl('', { validators: [Validators.required] }),
     recipeServings: new FormControl('', { validators: [Validators.required] }),
     isFavourite: new FormControl(false, { nonNullable: true }),
-    ingredients: new FormArray<FormControl<Ingredient>>([], Validators.minLength(1)),
+    ingredients: new FormArray<FormGroup<IngredientControls>>(
+      [],
+      Validators.minLength(1)
+    ),
   });
 
   protected readonly confirmationDialog = signal<ConfirmationDialog | null>(null);
@@ -40,6 +63,25 @@ export class AddRecipeComponent implements OnInit {
 
   get isValidForm() {
     return this.form.valid;
+  }
+
+  get ingredients(): FormArray<FormGroup<IngredientControls>> {
+    return this.form.controls.ingredients;
+  }
+
+  shouldShowIngredientErrors(index: number) {
+    const group = this.ingredients.at(index);
+    return group.invalid && (group.dirty || group.touched);
+  }
+
+  isIngredientControlInvalid(index: number, controlName: keyof IngredientControls) {
+    const control = this.ingredients.at(index).controls[controlName];
+    return control.invalid && (control.dirty || control.touched);
+  }
+
+  isIngredientGroupInvalid(index: number) {
+    const group = this.ingredients.at(index);
+    return group.invalid && (group.dirty || group.touched);
   }
 
   markAsFavurite(event: Event) {
@@ -83,19 +125,22 @@ export class AddRecipeComponent implements OnInit {
   }
 
   addIngredient() {
-    const ingredients = this.form.controls.ingredients as FormArray;
-    ingredients.push(
-      new FormGroup({
-        name: new FormControl('', { validators: [Validators.required] }),
-        quantity: new FormControl('', { validators: [Validators.required] }),
-        unit: new FormControl('', { validators: [Validators.required] }),
-      })
-    );
+    if (this.ingredients.length > 0) {
+      const lastGroup = this.ingredients.at(this.ingredients.length - 1);
+      if (lastGroup.invalid) {
+        lastGroup.markAllAsTouched();
+        this.openSnackbar(
+          "Completa l'ingrediente precedente prima di aggiungerne un altro."
+        );
+        return;
+      }
+    }
+
+    this.ingredients.push(this.createIngredientGroup());
   }
 
   removeIngredient(index: number) {
-    const ingredients = this.form.controls.ingredients as FormArray;
-    ingredients.removeAt(index);
+    this.ingredients.removeAt(index);
   }
 
   onSubmit() {
