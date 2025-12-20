@@ -112,13 +112,24 @@
               <span>Aggiungi ingrediente</span>
             </button>
           </div>
+          
 
-          <div class="add-recipe__ingredients">
-            @for (fc of form.controls['ingredients'].controls; track $index) {
-            <div class="add-recipe__ingredient-row">
-              <input class="add-recipe__input" type="text" placeholder="Nome" />
-              <input class="add-recipe__input" type="number" placeholder="Quantità"  />
-              <select class="add-recipe__select">
+          <div class="add-recipe__ingredients" formArrayName="ingredients">
+            @for (fg of form.controls['ingredients'].controls; track fg; let i = $index) {
+            <div class="add-recipe__ingredient-row" [formGroupName]="i">
+              <input
+                class="add-recipe__input"
+                type="text"
+                placeholder="Nome"
+                formControlName="name"
+              />
+              <input
+                class="add-recipe__input"
+                type="number"
+                placeholder="Quantità"
+                formControlName="quantity"
+              />
+              <select class="add-recipe__select" formControlName="unit">
                 <option value="">Unità</option>
                 <option value="g">g</option>
                 <option value="ml">ml</option>
@@ -127,7 +138,12 @@
                 <option value="pinch">pinch</option>
                 <option value="clove">clove</option>
               </select>
-              <button class="add-recipe__ghost" type="button" aria-label="Rimuovi ingrediente" (click)="removeIngredient($index)">
+              <button
+                class="add-recipe__ghost"
+                type="button"
+                aria-label="Rimuovi ingrediente"
+                (click)="removeIngredient(i)"
+              >
                 ×
               </button>
             </div>

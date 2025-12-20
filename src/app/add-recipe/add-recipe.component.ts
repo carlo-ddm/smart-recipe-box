@@ -1,8 +1,23 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialog } from '../models/diaolog.model';
+
+// Custom validators -> to be completed and outsourced
+function minIngredient(control: AbstractControl) {
+  if (control.value >= 3) {
+    return null;
+  }
+  return { loweLimit: true };
+}
 
 @Component({
   selector: 'app-add-recipe',
@@ -12,7 +27,6 @@ import { ConfirmationDialog } from '../models/diaolog.model';
 })
 export class AddRecipeComponent implements OnInit {
   private router = inject(Router);
-  // private route = inject(ActivatedRoute);
 
   form = new FormGroup({
     recipeName: new FormControl('', { validators: [Validators.required] }),
@@ -20,13 +34,16 @@ export class AddRecipeComponent implements OnInit {
     recipeDescription: new FormControl('', { validators: [Validators.required] }),
     recipeServings: new FormControl('', { validators: [Validators.required] }),
     isFavourite: new FormControl(false, { nonNullable: true }),
-    ingredients: new FormArray([
-      new FormGroup({
-        name: new FormControl('', { validators: [Validators.required] }),
-        quantity: new FormControl(0, { validators: [Validators.required] }),
-        unit: new FormControl('', { validators: [Validators.required] }),
-      }),
-    ]),
+    ingredients: new FormArray(
+      [
+        new FormGroup({
+          name: new FormControl('', { validators: [Validators.required] }),
+          quantity: new FormControl(0, { validators: [Validators.required] }),
+          unit: new FormControl('', { validators: [Validators.required] }),
+        }),
+      ],
+      { validators: [minIngredient] }
+    ),
   });
 
   protected readonly confirmationDialog = signal<ConfirmationDialog | null>(null);
@@ -82,24 +99,21 @@ export class AddRecipeComponent implements OnInit {
   }
 
   addIngredient() {
-    const ingredients = this.form.controls.ingredients.controls; // array of FormGroups
-    const newIngredient = new FormGroup({
-      name: new FormControl('', { validators: [Validators.required] }),
-      quantity: new FormControl(0, { validators: [Validators.required] }),
-      unit: new FormControl('', { validators: [Validators.required] }),
-    });
-
-    ingredients.push(newIngredient);
-  }
-
-  removeIngredient(index: number) {
-    let ingredients = this.form.controls.ingredients.controls; // array of FormGroups
-    this.form.controls.ingredients.controls = ingredients.filter(
-      (i) => ingredients.indexOf(i) != index
+    (<FormArray>this.form.controls.ingredients).push(
+      new FormGroup({
+        name: new FormControl('', { validators: [Validators.required] }),
+        quantity: new FormControl(0, { validators: [Validators.required] }),
+        unit: new FormControl('', { validators: [Validators.required] }),
+      })
     );
   }
 
+  removeIngredient(index: number) {
+    (<FormArray>this.form.controls.ingredients).removeAt(index);
+  }
+
   onSubmit() {
+    return;
     if (!this.isValidForm) {
       this.form.markAllAsTouched();
       this.openSnackbar('Completa tutti i campi obbligatori prima di salvare.');
