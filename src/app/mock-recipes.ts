@@ -6,7 +6,8 @@ export const recipes: RecipeModel[] = [
     name: 'Carbonara',
     description: 'La pasta preferita dai romani... e non solo',
     imgUrl: 'https://upload.wikimedia.org/wikipedia/commons/3/33/Espaguetis_carbonara.jpg',
-    isFavorite: true,
+    servings: 2,
+    isFavourite: true,
     ingredients: [
       {
         name: 'Spaghetti',
@@ -40,7 +41,8 @@ export const recipes: RecipeModel[] = [
     name: 'Penne all’Arrabbiata',
     description: 'Un classico romano dal gusto deciso e piccante — perfetto per chi ama il peperoncino.',
     imgUrl: 'https://figandoliveplatter.com/wp-content/uploads/2021/10/MG_7375.jpg',
-    isFavorite: false,
+    servings: 2,
+    isFavourite: false,
     ingredients: [
       { name: 'Penne (lisce o rigate)', quantity: 100, unit: 'g' },
       { name: 'Pomodori pelati', quantity: 200, unit: 'g' },
@@ -57,7 +59,8 @@ export const recipes: RecipeModel[] = [
     name: 'Pasta al Pesto alla Genovese',
     description: 'Fresca, profumata e ligure — basilico, pinoli e formaggio per una salsa semplice e classica.',
     imgUrl: 'https://media-assets.lacucinaitaliana.it/photos/620fbf30a4d64e19087d8b82/1:1/pass/undefined',
-    isFavorite: true,
+    servings: 2,
+    isFavourite: true,
     ingredients: [
       { name: 'Pasta (trofie, trenette o cavatappi)', quantity: 100, unit: 'g' },
       { name: 'Basilico fresco', quantity: 30, unit: 'g' },
@@ -74,7 +77,8 @@ export const recipes: RecipeModel[] = [
     name: 'Spaghetti all’Amatriciana',
     description: 'Guanciale, pomodoro e pecorino — un pilastro della cucina laziale.',
     imgUrl: 'https://recipecontent.fooby.ch/28652_3-2_480-320.jpg',
-    isFavorite: true,
+    servings: 2,
+    isFavourite: true,
     ingredients: [
       { name: 'Spaghetti o bucatini', quantity: 100, unit: 'g' },
       { name: 'Guanciale', quantity: 150, unit: 'g' },
@@ -90,7 +94,8 @@ export const recipes: RecipeModel[] = [
     name: 'Risotto ai Funghi Porcini',
     description: 'Risotto cremoso con funghi porcini profumati — perfetto nelle serate fredde.',
     imgUrl: 'https://www.fortunatiantonio.it/wp-content/uploads/2015/05/shutterstock_116404021.jpg',
-    isFavorite: true,
+    servings: 2,
+    isFavourite: true,
     ingredients: [
       { name: 'Riso Arborio (o Carnaroli)', quantity: 100, unit: 'g' },
       { name: 'Funghi porcini freschi (o surgelati)', quantity: 120, unit: 'g' },
@@ -108,7 +113,8 @@ export const recipes: RecipeModel[] = [
     name: 'Penne al Pomodoro e Basilico',
     description: 'Pomodoro fresco, basilico e olio — semplice, leggera e molto italiana.',
     imgUrl: 'https://orapesce.it/cdn/shop/articles/108db68259679306e769911ea92f6e73_1100x.jpg?v=1728481131',
-    isFavorite: false,
+    servings: 2,
+    isFavourite: false,
     ingredients: [
       { name: 'Penne rigate', quantity: 100, unit: 'g' },
       { name: 'Pomodori maturi', quantity: 200, unit: 'g' },

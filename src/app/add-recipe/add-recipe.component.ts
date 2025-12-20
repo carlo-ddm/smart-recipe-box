@@ -1,20 +1,25 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import {
-  FormArray,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialog } from '../models/diaolog.model';
+import { RecipeService } from '../services/recipe.service';
+import { CreateRecipeInput, Unit } from '../models/recipe.models';
 
 type IngredientControls = {
   name: FormControl<string>;
-  quantity: FormControl<number | null>;
-  unit: FormControl<string>;
+  quantity: FormControl<number>;
+  unit: FormControl<Unit>;
 };
+
+type RecipeFormGroup = FormGroup<{
+  name: FormControl<string>;
+  imgUrl: FormControl<string>;
+  description: FormControl<string>;
+  servings: FormControl<number>;
+  isFavourite: FormControl<boolean>;
+  ingredients: FormArray<FormGroup<IngredientControls>>;
+}>;
 
 @Component({
   selector: 'app-add-recipe',
@@ -24,6 +29,7 @@ type IngredientControls = {
 })
 export class AddRecipeComponent implements OnInit {
   private router = inject(Router);
+  private recipeService = inject(RecipeService);
 
   private createIngredientGroup() {
     return new FormGroup<IngredientControls>({
@@ -31,26 +37,27 @@ export class AddRecipeComponent implements OnInit {
         nonNullable: true,
         validators: [Validators.required],
       }),
-      quantity: new FormControl<number | null>(null, {
+      quantity: new FormControl(1, {
+        nonNullable: true,
         validators: [Validators.required, Validators.min(1)],
       }),
-      unit: new FormControl('', {
+      unit: new FormControl<Unit>('g', {
         nonNullable: true,
         validators: [Validators.required],
       }),
     });
   }
 
-  form = new FormGroup({
-    recipeName: new FormControl('', { validators: [Validators.required] }),
-    recipeImg: new FormControl('', { validators: [Validators.required] }),
-    recipeDescription: new FormControl('', { validators: [Validators.required] }),
-    recipeServings: new FormControl('', { validators: [Validators.required] }),
+  form: RecipeFormGroup = new FormGroup({
+    name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    imgUrl: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    description: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    servings: new FormControl(1, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.min(1)],
+    }),
     isFavourite: new FormControl(false, { nonNullable: true }),
-    ingredients: new FormArray<FormGroup<IngredientControls>>(
-      [],
-      Validators.minLength(1)
-    ),
+    ingredients: new FormArray<FormGroup<IngredientControls>>([], Validators.minLength(1)),
   });
 
   protected readonly confirmationDialog = signal<ConfirmationDialog | null>(null);
@@ -129,9 +136,7 @@ export class AddRecipeComponent implements OnInit {
       const lastGroup = this.ingredients.at(this.ingredients.length - 1);
       if (lastGroup.invalid) {
         lastGroup.markAllAsTouched();
-        this.openSnackbar(
-          "Completa l'ingrediente precedente prima di aggiungerne un altro."
-        );
+        this.openSnackbar("Completa l'ingrediente precedente prima di aggiungerne un altro.");
         return;
       }
     }
@@ -144,13 +149,13 @@ export class AddRecipeComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form);
-
-    return;
     if (!this.isValidForm) {
       this.form.markAllAsTouched();
       this.openSnackbar('Completa tutti i campi obbligatori prima di salvare.');
       return;
     }
+
+    const recipe: CreateRecipeInput = this.form.getRawValue();
+    this.recipeService.insertNewRecipe(recipe);
   }
 }

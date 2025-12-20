@@ -8,10 +8,6 @@
           Aggiungi un nome, una descrizione e un’immagine per ispirare i tuoi utenti.
         </p>
       </div>
-      <!-- <button class="add-recipe__chip" type="button">
-        <span class="add-recipe__chip-icon" aria-hidden="true">＋</span>
-        <span>Ingredienti</span>
-      </button> -->
     </header>
 
     <form class="add-recipe__form" [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -21,19 +17,17 @@
           <input
             class="add-recipe__input"
             [class.add-recipe__input--invalid]="
-              form.controls.recipeName.invalid &&
-              (form.controls.recipeName.touched || form.controls.recipeName.dirty)
+              form.controls.name.invalid &&
+              (form.controls.name.touched || form.controls.name.dirty)
             "
             type="text"
             name="name"
             placeholder="Es. Lasagne al ragù"
-            formControlName="recipeName"
+            formControlName="name"
           />
-          @if (
-            form.controls.recipeName.invalid &&
-            (form.controls.recipeName.touched || form.controls.recipeName.dirty)
-          ) {
-            <span class="add-recipe__error">Il nome della ricetta è obbligatorio.</span>
+          @if ( form.controls.name.invalid && (form.controls.name.touched ||
+          form.controls.name.dirty) ) {
+          <span class="add-recipe__error">Il nome della ricetta è obbligatorio.</span>
           }
         </label>
 
@@ -42,19 +36,17 @@
           <input
             class="add-recipe__input"
             [class.add-recipe__input--invalid]="
-              form.controls.recipeImg.invalid &&
-              (form.controls.recipeImg.touched || form.controls.recipeImg.dirty)
+              form.controls.imgUrl.invalid &&
+              (form.controls.imgUrl.touched || form.controls.imgUrl.dirty)
             "
             type="url"
             name="imgUrl"
             placeholder="https://..."
-            formControlName="recipeImg"
+            formControlName="imgUrl"
           />
-          @if (
-            form.controls.recipeImg.invalid &&
-            (form.controls.recipeImg.touched || form.controls.recipeImg.dirty)
-          ) {
-            <span class="add-recipe__error">L'URL dell'immagine è obbligatorio.</span>
+          @if ( form.controls.imgUrl.invalid && (form.controls.imgUrl.touched ||
+          form.controls.imgUrl.dirty) ) {
+          <span class="add-recipe__error">L'URL dell'immagine è obbligatorio.</span>
           }
         </label>
 
@@ -63,43 +55,39 @@
           <textarea
             class="add-recipe__textarea"
             [class.add-recipe__textarea--invalid]="
-              form.controls.recipeDescription.invalid &&
-              (form.controls.recipeDescription.touched || form.controls.recipeDescription.dirty)
+              form.controls.description.invalid &&
+              (form.controls.description.touched || form.controls.description.dirty)
             "
             name="description"
             rows="3"
             placeholder="Scrivi una descrizione breve e invitante..."
-            formControlName="recipeDescription"
+            formControlName="description"
           ></textarea>
-          @if (
-            form.controls.recipeDescription.invalid &&
-            (form.controls.recipeDescription.touched || form.controls.recipeDescription.dirty)
-          ) {
-            <span class="add-recipe__error">La descrizione è obbligatoria.</span>
+          @if ( form.controls.description.invalid && (form.controls.description.touched
+          || form.controls.description.dirty) ) {
+          <span class="add-recipe__error">La descrizione è obbligatoria.</span>
           }
         </label>
 
-        <label class="add-recipe__field">
+        <!-- <label class="add-recipe__field">
           <span class="add-recipe__label">Porzioni</span>
           <input
             class="add-recipe__input"
             [class.add-recipe__input--invalid]="
-              form.controls.recipeServings.invalid &&
-              (form.controls.recipeServings.touched || form.controls.recipeServings.dirty)
+              form.controls.servings.invalid &&
+              (form.controls.servings.touched || form.controls.servings.dirty)
             "
             type="number"
             name="servings"
             min="1"
             value="1"
-            formControlName="recipeServings"
+            formControlName="servings"
           />
-          @if (
-            form.controls.recipeServings.invalid &&
-            (form.controls.recipeServings.touched || form.controls.recipeServings.dirty)
-          ) {
-            <span class="add-recipe__error">Il numero di porzioni è obbligatorio.</span>
+          @if ( form.controls.servings.invalid && (form.controls.servings.touched ||
+          form.controls.servings.dirty) ) {
+          <span class="add-recipe__error">Il numero di porzioni è obbligatorio.</span>
           }
-        </label>
+        </label> -->
 
         <div class="add-recipe__field add-recipe__field--toggle">
           <span class="add-recipe__label" id="favorite-label">Segna come preferita</span>
@@ -121,69 +109,65 @@
             </button>
           </div>
           @if (ingredients.length >= 1) {
-            <div class="add-recipe__ingredients" formArrayName="ingredients">
-              @for (fg of ingredients.controls; track fg; let i = $index) {
-                <div
-                  class="add-recipe__ingredient-row"
-                  [formGroupName]="i"
-                  [class.add-recipe__ingredient-row--invalid]="isIngredientGroupInvalid(i)"
-                >
-                  <input
-                    class="add-recipe__input"
-                    [class.add-recipe__input--invalid]="isIngredientControlInvalid(i, 'name')"
-                    type="text"
-                    placeholder="Nome"
-                    formControlName="name"
-                  />
-                  <input
-                    class="add-recipe__input"
-                    [class.add-recipe__input--invalid]="isIngredientControlInvalid(i, 'quantity')"
-                    type="number"
-                    min="1"
-                    placeholder="Quantità"
-                    formControlName="quantity"
-                  />
-                  <select
-                    class="add-recipe__select"
-                    [class.add-recipe__select--invalid]="isIngredientControlInvalid(i, 'unit')"
-                    formControlName="unit"
-                  >
-                    <option value="">Unità</option>
-                    <option value="g">g</option>
-                    <option value="ml">ml</option>
-                    <option value="tbsp">tbsp</option>
-                    <option value="each">each</option>
-                    <option value="pinch">pinch</option>
-                    <option value="clove">clove</option>
-                  </select>
-                  <button
-                    class="add-recipe__ghost"
-                    type="button"
-                    aria-label="Rimuovi ingrediente"
-                    (click)="removeIngredient(i)"
-                  >
-                    ×
-                  </button>
-                </div>
-                @if (shouldShowIngredientErrors(i)) {
-                  <div class="add-recipe__ingredient-errors" aria-live="polite">
-                    @if (isIngredientControlInvalid(i, 'name')) {
-                      <span class="add-recipe__error">Il nome è obbligatorio.</span>
-                    }
-                    @if (isIngredientControlInvalid(i, 'quantity')) {
-                      <span class="add-recipe__error">Inserisci una quantità valida.</span>
-                    }
-                    @if (isIngredientControlInvalid(i, 'unit')) {
-                      <span class="add-recipe__error">Seleziona un'unità.</span>
-                    }
-                  </div>
-                }
+          <div class="add-recipe__ingredients" formArrayName="ingredients">
+            @for (fg of ingredients.controls; track fg; let i = $index) {
+            <div
+              class="add-recipe__ingredient-row"
+              [formGroupName]="i"
+              [class.add-recipe__ingredient-row--invalid]="isIngredientGroupInvalid(i)"
+            >
+              <input
+                class="add-recipe__input"
+                [class.add-recipe__input--invalid]="isIngredientControlInvalid(i, 'name')"
+                type="text"
+                placeholder="Nome"
+                formControlName="name"
+              />
+              <input
+                class="add-recipe__input"
+                [class.add-recipe__input--invalid]="isIngredientControlInvalid(i, 'quantity')"
+                type="number"
+                min="1"
+                placeholder="Quantità"
+                formControlName="quantity"
+              />
+              <select
+                class="add-recipe__select"
+                [class.add-recipe__select--invalid]="isIngredientControlInvalid(i, 'unit')"
+                formControlName="unit"
+              >
+                <option value="g">g</option>
+                <option value="ml">ml</option>
+                <option value="tbsp">tbsp</option>
+                <option value="each">each</option>
+                <option value="pinch">pinch</option>
+                <option value="clove">clove</option>
+              </select>
+              <button
+                class="add-recipe__ghost"
+                type="button"
+                aria-label="Rimuovi ingrediente"
+                (click)="removeIngredient(i)"
+              >
+                ×
+              </button>
+            </div>
+            @if (shouldShowIngredientErrors(i)) {
+            <div class="add-recipe__ingredient-errors" aria-live="polite">
+              @if (isIngredientControlInvalid(i, 'name')) {
+              <span class="add-recipe__error">Il nome è obbligatorio.</span>
+              } @if (isIngredientControlInvalid(i, 'quantity')) {
+              <span class="add-recipe__error">Inserisci una quantità valida.</span>
+              } @if (isIngredientControlInvalid(i, 'unit')) {
+              <span class="add-recipe__error">Seleziona un'unità.</span>
               }
             </div>
+            } }
+          </div>
           } @else {
-            <div class="add-recipe__ingredients-empty">
-              <p>Aggiungi almeno un ingrediente per continuare.</p>
-            </div>
+          <div class="add-recipe__ingredients-empty">
+            <p>Aggiungi almeno un ingrediente per continuare.</p>
+          </div>
           }
         </div>
       </div>
@@ -192,35 +176,33 @@
         <button class="btn btn--secondary" type="button" (click)="openConfirmDiscardDialog()">
           Annulla
         </button>
-        <button class="btn btn--primary" type="submit" [disabled]="form.invalid">
-          Salva ricetta
-        </button>
+        <button class="btn btn--primary" type="submit">Salva ricetta</button>
       </footer>
     </form>
   </div>
 
   @if (snackbarMessage()) {
-    <div class="add-recipe__snackbar" role="status" aria-live="polite">
-      {{ snackbarMessage() }}
-    </div>
+  <div class="add-recipe__snackbar" role="status" aria-live="polite">
+    {{ snackbarMessage() }}
+  </div>
   }
 </section>
 
 @if (confirmationDialog()) {
-  <app-confirmation-dialog>
-    <div dialogTitle>
-      <h1>{{ confirmationDialog()?.title }}</h1>
-    </div>
-    <div dialogMessage>
-      <p>{{ confirmationDialog()?.message }}</p>
-    </div>
-    <div dialogActions>
-      <button class="btn btn--secondary" type="button" (click)="handleDialogDecision(false)">
-        Continua a modificare
-      </button>
-      <button class="btn btn--primary" type="button" (click)="handleDialogDecision(true)">
-        Scarta modifiche
-      </button>
-    </div>
-  </app-confirmation-dialog>
+<app-confirmation-dialog>
+  <div dialogTitle>
+    <h1>{{ confirmationDialog()?.title }}</h1>
+  </div>
+  <div dialogMessage>
+    <p>{{ confirmationDialog()?.message }}</p>
+  </div>
+  <div dialogActions>
+    <button class="btn btn--secondary" type="button" (click)="handleDialogDecision(false)">
+      Continua a modificare
+    </button>
+    <button class="btn btn--primary" type="button" (click)="handleDialogDecision(true)">
+      Scarta modifiche
+    </button>
+  </div>
+</app-confirmation-dialog>
 }
