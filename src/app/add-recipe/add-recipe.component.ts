@@ -10,14 +10,7 @@ import {
 import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialog } from '../models/diaolog.model';
-
-// Custom validators -> to be completed and outsourced
-function minIngredient(control: AbstractControl) {
-  if (control.value >= 3) {
-    return null;
-  }
-  return { loweLimit: true };
-}
+import { Ingredient } from '../models/recipe.models';
 
 @Component({
   selector: 'app-add-recipe',
@@ -34,16 +27,7 @@ export class AddRecipeComponent implements OnInit {
     recipeDescription: new FormControl('', { validators: [Validators.required] }),
     recipeServings: new FormControl('', { validators: [Validators.required] }),
     isFavourite: new FormControl(false, { nonNullable: true }),
-    ingredients: new FormArray(
-      [
-        new FormGroup({
-          name: new FormControl('', { validators: [Validators.required] }),
-          quantity: new FormControl(0, { validators: [Validators.required] }),
-          unit: new FormControl('', { validators: [Validators.required] }),
-        }),
-      ],
-      { validators: [minIngredient] }
-    ),
+    ingredients: new FormArray<FormControl<Ingredient>>([], Validators.minLength(1)),
   });
 
   protected readonly confirmationDialog = signal<ConfirmationDialog | null>(null);
@@ -99,20 +83,24 @@ export class AddRecipeComponent implements OnInit {
   }
 
   addIngredient() {
-    (<FormArray>this.form.controls.ingredients).push(
+    const ingredients = this.form.controls.ingredients as FormArray;
+    ingredients.push(
       new FormGroup({
         name: new FormControl('', { validators: [Validators.required] }),
-        quantity: new FormControl(0, { validators: [Validators.required] }),
+        quantity: new FormControl('', { validators: [Validators.required] }),
         unit: new FormControl('', { validators: [Validators.required] }),
       })
     );
   }
 
   removeIngredient(index: number) {
-    (<FormArray>this.form.controls.ingredients).removeAt(index);
+    const ingredients = this.form.controls.ingredients as FormArray;
+    ingredients.removeAt(index);
   }
 
   onSubmit() {
+    console.log(this.form);
+
     return;
     if (!this.isValidForm) {
       this.form.markAllAsTouched();

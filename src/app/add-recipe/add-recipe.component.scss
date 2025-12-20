@@ -60,10 +60,7 @@
   letter-spacing: 0.01em;
   box-shadow: 0 10px 20px rgba(255, 198, 139, 0.24);
   cursor: pointer;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.18s ease,
-    background 0.18s ease,
+  transition: transform 0.12s ease, box-shadow 0.18s ease, background 0.18s ease,
     border-color 0.18s ease;
 
   &:hover {
@@ -137,10 +134,7 @@
   font: inherit;
   color: #1f2d3d;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    background 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 
   &::placeholder {
     color: #9aa0ab;
@@ -208,9 +202,7 @@
   border-radius: 999px;
   background: #e5e7eb;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  transition:
-    background 0.16s ease,
-    box-shadow 0.16s ease;
+  transition: background 0.16s ease, box-shadow 0.16s ease;
 }
 
 .add-recipe__toggle-thumb {
@@ -222,9 +214,7 @@
   border-radius: 50%;
   background: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition:
-    transform 0.16s ease,
-    background 0.16s ease;
+  transition: transform 0.16s ease, background 0.16s ease;
 }
 
 .add-recipe__toggle-text {
@@ -234,9 +224,7 @@
 
 .add-recipe__toggle-input:checked + .add-recipe__toggle-track {
   background: linear-gradient(135deg, #ffd9b3, #ffc085);
-  box-shadow:
-    inset 0 1px 2px rgba(0, 0, 0, 0.12),
-    0 12px 24px rgba(255, 192, 133, 0.22);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12), 0 12px 24px rgba(255, 192, 133, 0.22);
 }
 
 .add-recipe__toggle-input:checked + .add-recipe__toggle-track .add-recipe__toggle-thumb {
@@ -286,10 +274,7 @@
   border-radius: 10px;
   padding: 10px 12px;
   cursor: pointer;
-  transition:
-    transform 0.1s ease,
-    box-shadow 0.15s ease,
-    background 0.15s ease,
+  transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease,
     border-color 0.15s ease;
 
   &:hover {
@@ -316,10 +301,7 @@
   color: #4a2b15;
   font-weight: 650;
   cursor: pointer;
-  transition:
-    transform 0.1s ease,
-    box-shadow 0.15s ease,
-    background 0.15s ease,
+  transition: transform 0.1s ease, box-shadow 0.15s ease, background 0.15s ease,
     border-color 0.15s ease;
 
   &:hover {

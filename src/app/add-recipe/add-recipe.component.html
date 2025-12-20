@@ -8,10 +8,10 @@
           Aggiungi un nome, una descrizione e un’immagine per ispirare i tuoi utenti.
         </p>
       </div>
-      <button class="add-recipe__chip" type="button">
+      <!-- <button class="add-recipe__chip" type="button">
         <span class="add-recipe__chip-icon" aria-hidden="true">＋</span>
         <span>Ingredienti</span>
-      </button>
+      </button> -->
     </header>
 
     <form class="add-recipe__form" [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -29,9 +29,9 @@
             placeholder="Es. Lasagne al ragù"
             formControlName="recipeName"
           />
-          @if (form.controls.recipeName.invalid && (form.controls.recipeName.touched ||
-          form.controls.recipeName.dirty)) {
-          <span class="add-recipe__error">Recipe name is required.</span>
+          @if ( form.controls.recipeName.invalid && (form.controls.recipeName.touched ||
+          form.controls.recipeName.dirty) ) {
+          <span class="add-recipe__error">Il nome della ricetta è obbligatorio.</span>
           }
         </label>
 
@@ -48,9 +48,9 @@
             placeholder="https://..."
             formControlName="recipeImg"
           />
-          @if (form.controls.recipeImg.invalid && (form.controls.recipeImg.touched ||
-          form.controls.recipeImg.dirty)) {
-          <span class="add-recipe__error">Image URL is required.</span>
+          @if ( form.controls.recipeImg.invalid && (form.controls.recipeImg.touched ||
+          form.controls.recipeImg.dirty) ) {
+          <span class="add-recipe__error">L'URL dell'immagine è obbligatorio.</span>
           }
         </label>
 
@@ -67,9 +67,9 @@
             placeholder="Scrivi una descrizione breve e invitante..."
             formControlName="recipeDescription"
           ></textarea>
-          @if (form.controls.recipeDescription.invalid && (form.controls.recipeDescription.touched
-          || form.controls.recipeDescription.dirty)) {
-          <span class="add-recipe__error">Description is required.</span>
+          @if ( form.controls.recipeDescription.invalid && (form.controls.recipeDescription.touched
+          || form.controls.recipeDescription.dirty) ) {
+          <span class="add-recipe__error">La descrizione è obbligatoria.</span>
           }
         </label>
 
@@ -87,9 +87,9 @@
             value="1"
             formControlName="recipeServings"
           />
-          @if (form.controls.recipeServings.invalid && (form.controls.recipeServings.touched ||
-          form.controls.recipeServings.dirty)) {
-          <span class="add-recipe__error">Servings is required.</span>
+          @if ( form.controls.recipeServings.invalid && (form.controls.recipeServings.touched ||
+          form.controls.recipeServings.dirty) ) {
+          <span class="add-recipe__error">Il numero di porzioni è obbligatorio.</span>
           }
         </label>
 
@@ -112,8 +112,7 @@
               <span>Aggiungi ingrediente</span>
             </button>
           </div>
-          
-
+          @if (form.controls['ingredients'].length >= 1) {
           <div class="add-recipe__ingredients" formArrayName="ingredients">
             @for (fg of form.controls['ingredients'].controls; track fg; let i = $index) {
             <div class="add-recipe__ingredient-row" [formGroupName]="i">
@@ -149,6 +148,11 @@
             </div>
             }
           </div>
+          } @else {
+          <div>
+            <h1>Seleziona un ingrediente</h1>
+          </div>
+          }
         </div>
       </div>
 

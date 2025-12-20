@@ -26,29 +26,29 @@
       <nav class="recipe-list__nav" aria-label="Elenco ricette">
         <ul class="recipe-list__items">
           @for (recipe of filteredRecipe(); track recipe.id) {
-          <li class="recipe-list__item">
-            <a
-              class="recipe-list__link"
-              [routerLink]="[recipe.id]"
-              routerLinkActive="recipe-list__link--active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              [attr.aria-current]="isActiveRecipe(recipe.id) ? 'page' : null"
-            >
-              <span class="recipe-list__link-text">
-                {{ recipe.name }}
-              </span>
-              @if (recipe.isFavorite) {
-              <span class="recipe-list__badge">Preferita</span>
-              }
-            </a>
-          </li>
+            <li class="recipe-list__item">
+              <a
+                class="recipe-list__link"
+                [routerLink]="[recipe.id]"
+                routerLinkActive="recipe-list__link--active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                [attr.aria-current]="isActiveRecipe(recipe.id) ? 'page' : null"
+              >
+                <span class="recipe-list__link-text">
+                  {{ recipe.name }}
+                </span>
+                @if (recipe.isFavorite) {
+                  <span class="recipe-list__badge">Preferita</span>
+                }
+              </a>
+            </li>
           }
         </ul>
         @if (filteredRecipe().length === 0) {
-        <div class="recipe-list__empty">
-          <p class="recipe-list__empty-title">Ricetta non trovata</p>
-          <p class="recipe-list__empty-text">Nessun risultato corrisponde al filtro corrente.</p>
-        </div>
+          <div class="recipe-list__empty">
+            <p class="recipe-list__empty-title">Ricetta non trovata</p>
+            <p class="recipe-list__empty-text">Nessun risultato corrisponde al filtro corrente.</p>
+          </div>
         }
       </nav>
 
