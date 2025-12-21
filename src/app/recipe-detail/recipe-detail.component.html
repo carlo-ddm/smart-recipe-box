@@ -19,7 +19,30 @@
     </figure>
 
     <section class="recipe__ingredients">
-      <h3 class="recipe__ingredients-title">Ingredienti</h3>
+      <div class="recipe__ingredients-header">
+        <h3 class="recipe__ingredients-title">Ingredienti</h3>
+        <div class="recipe__servings-controls" role="group" aria-label="Porzioni">
+          <button
+            class="recipe__servings-btn"
+            type="button"
+            aria-label="Diminuisci porzioni"
+            (click)="onDecrementServings()"
+          >
+            -
+          </button>
+          <span class="recipe__servings-value" aria-live="polite">
+            {{ servings() }}
+          </span>
+          <button
+            class="recipe__servings-btn"
+            type="button"
+            aria-label="Aumenta porzioni"
+            (click)="onIncrementServings()"
+          >
+            +
+          </button>
+        </div>
+      </div>
       <ul class="recipe__ingredients-list">
         @for (ingredient of adjustedIngredients(); track $index) {
           <li class="recipe__ingredient">
@@ -33,17 +56,6 @@
         }
       </ul>
     </section>
-
-    <footer class="recipe__footer">
-      <div class="recipe__actions-group">
-        <button class="btn btn--secondary" type="button" (click)="onDecrementServings()">
-          Diminuisci Quantità
-        </button>
-        <button class="btn btn--secondary" type="button" (click)="onIncrementServings()">
-          Aumenta Quantità
-        </button>
-      </div>
-    </footer>
   } @else {
     <div class="recipe__empty">
       <p class="recipe__empty-title">Nessuna ricetta selezionata</p>

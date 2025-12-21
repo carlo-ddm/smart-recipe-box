@@ -1,8 +1,19 @@
 <main class="app">
   <header class="app__header">
-    <h1 class="app__title">
-      {{ title() }}
-    </h1>
+    <div class="app__brand">
+      <p class="app__kicker">Ricette e ispirazione</p>
+      <h1 class="app__title">
+        {{ title() }}
+      </h1>
+    </div>
+    <nav class="app__nav" aria-label="Sezioni principali">
+      <a class="app__nav-link" href="#">Ricette</a>
+      <a class="app__nav-link" href="#">Cucina</a>
+      <a class="app__nav-link" href="#">Bere</a>
+      <a class="app__nav-link" href="#">Attualita</a>
+      <a class="app__nav-link" href="#">Dolci</a>
+      <a class="app__nav-link" href="#">Video</a>
+    </nav>
   </header>
 
   <section class="app__content">

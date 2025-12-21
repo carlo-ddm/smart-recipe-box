@@ -1,75 +1,178 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --font-sans: 'Source Sans 3', 'Work Sans', 'IBM Plex Sans', 'Noto Sans', 'Segoe UI', sans-serif;
+  --bg: #f7f4f1;
+  --surface: #ffffff;
+  --surface-alt: #fffaf6;
+  --surface-strong: #f1e7df;
+  --text: #2b1b16;
+  --text-muted: #6d5a4f;
+  --border: #eadfd6;
+  --border-strong: #d9c9bb;
+  --accent: #b0222f;
+  --accent-strong: #8f131f;
+  --accent-soft: #f6dede;
+  --danger: #b42318;
+  --warning: #b25d1c;
+  --shadow-sm: 0 2px 10px rgba(44, 24, 16, 0.08);
+  --shadow-md: 0 18px 40px rgba(44, 24, 16, 0.16);
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background-color: #f5f5f5;
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  position: relative;
+  isolation: isolate;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(520px 320px at 12% 8%, rgba(176, 34, 47, 0.08), transparent 60%),
+    radial-gradient(460px 280px at 86% 12%, rgba(198, 149, 95, 0.12), transparent 55%),
+    linear-gradient(180deg, #fffdfb 0%, #f2e8df 100%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(90deg, rgba(44, 24, 16, 0.04) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(44, 24, 16, 0.04) 1px, transparent 1px);
+  background-size: 180px 180px;
+  opacity: 0.12;
+  z-index: -1;
+  pointer-events: none;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+::selection {
+  background: rgba(176, 34, 47, 0.18);
+}
+
+@keyframes surface-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
 }
 
 .btn {
   cursor: pointer;
-  border-radius: 999px;
-  padding: 8px 18px;
-  font-size: 0.85rem;
+  border-radius: var(--radius-md);
+  padding: 10px 18px;
+  font-size: 0.95rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border: none;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  border: 1px solid transparent;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  min-width: 140px;
-
+  gap: 8px;
+  min-width: 120px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
   transition:
-    background-color 0.15s ease,
-    color 0.15s ease,
-    transform 0.1s ease,
-    box-shadow 0.15s ease,
-    border-color 0.15s ease;
+    background-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.12s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
 
-  &:hover {
-    transform: translateY(-1px);
-  }
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
 
-  &:active {
-    transform: translateY(0);
-    box-shadow: none;
-  }
+.btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
 
-  &:focus-visible {
-    outline: 2px solid #ff9800;
-    outline-offset: 2px;
-  }
+.btn:focus-visible {
+  outline: 2px solid rgba(176, 34, 47, 0.35);
+  outline-offset: 2px;
+}
+
+.btn:disabled,
+.btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .btn--primary {
-  background: linear-gradient(135deg, #ffb74d, #ff9800);
-  color: #222;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #b0222f, #8f131f);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 10px 20px rgba(176, 34, 47, 0.22);
+}
 
-  &:hover {
-    background: linear-gradient(135deg, #ffcc80, #ff9800);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
-  }
+.btn--primary:hover {
+  background: linear-gradient(135deg, #9f1c2a, #7a0f1b);
+  box-shadow: 0 14px 26px rgba(176, 34, 47, 0.28);
+}
 
-  &:active {
-    background: #ff9800;
-  }
+.btn--primary:active {
+  background: #9f1c2a;
 }
 
 .btn--secondary {
-  background: #fff3e0;
-  color: #e65100;
-  border: 1px solid #ffcc80;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border-strong);
+  box-shadow: none;
+}
 
-  &:hover {
-    background: #ffe0b2;
-    border-color: #ffb74d;
-  }
+.btn--secondary:hover {
+  background: var(--surface-alt);
+  border-color: var(--border-strong);
+}
 
-  &:active {
-    background: #ffcc80;
+.btn--secondary:active {
+  background: var(--surface-strong);
+}
+
+@media (max-width: 720px) {
+  body {
+    font-size: 0.97rem;
   }
 }
