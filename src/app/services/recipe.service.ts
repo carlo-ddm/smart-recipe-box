@@ -11,20 +11,36 @@ export class RecipeService {
   private recipes = signal<RecipeModel[]>(recipes);
 
   getAllRecipe() {
-    return this.recipes.asReadonly(); // .asReadonly is called on the signal itself, not on its value
+    return this.recipes.asReadonly();
   }
 
-  insertNewRecipe(value: CreateRecipeInput) {
-    const lastId = this.recipes().find(
-      (value: RecipeModel, _: number, obj: RecipeModel[]) => value.id === obj[obj.length - 1].id
-    )?.id as number;
+  /**
+   * Returns a cloned recipe to keep the store immutable from callers.
+   */
+  getRecipe(id: number) {
+    const recipe = this.recipes().find((value) => value.id === id);
+    return structuredClone(recipe);
+  }
 
-    const newRecipe: RecipeModel = {
-      ...value,
-      id: lastId + 1,
-    };
+  /**
+   * Creates a new recipe when edit is false and then navigates back to the list.
+   * Note: edit mode handling is intentionally left unimplemented for now.
+   */
+  inserOrUpdatewRecipe<T extends CreateRecipeInput | RecipeModel>(value: T, edit: boolean) {
+    if (!edit) {
+      const lastId = this.recipes().find(
+        (value: RecipeModel, _: number, obj: RecipeModel[]) => value.id === obj[obj.length - 1].id
+      )?.id as number;
 
-    this.recipes.update((recipes) => [...recipes, newRecipe]);
+      const newRecipe: RecipeModel = {
+        ...value,
+        id: lastId + 1,
+      };
+
+      this.recipes.update((recipes) => [...recipes, newRecipe]);
+    } else {
+      // TODO
+    }
 
     this.router.navigate(['../']);
   }
@@ -36,6 +52,5 @@ export class RecipeService {
         (value: RecipeModel, _: number, obj: RecipeModel[]) => obj.indexOf(value) !== recipeIndex
       )
     );
-
   }
 }

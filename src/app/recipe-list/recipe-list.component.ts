@@ -29,10 +29,17 @@ export class RecipeListComponent {
     );
   });
 
+  /**
+   * Reads the active recipe id from the child route, if present.
+   */
   private getActiveRecipeId(): number | null {
     const value = this.route.firstChild?.snapshot.paramMap.get('rId');
     const id = Number(value);
     return Number.isFinite(id) ? id : null;
+  }
+
+  onEditRecipe(id: number) {
+    this.router.navigate(['/add-recipe', id]);
   }
 
   onDeleteRecipe(id: number) {

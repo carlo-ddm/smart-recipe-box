@@ -103,7 +103,6 @@
   flex: 1 1 auto;
   min-height: 0;
   align-items: stretch;
-  height: 100%;
   grid-auto-rows: minmax(0, 1fr);
 }
 
@@ -126,7 +125,7 @@
   flex-direction: column;
   gap: 12px;
   min-height: 0;
-  height: 100%;
+  overflow: hidden;
   background: var(--surface-alt);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -296,11 +295,12 @@
   background: transparent;
   border: none;
   padding: 0;
-  flex: 1 1 auto;
+  flex: 1 1 0;
   min-height: 0;
+  max-height: 100%;
   overflow: auto;
   scrollbar-gutter: stable;
-  min-height: clamp(220px, 34vh, 380px);
+  min-height: 200px;
 }
 
 .add-recipe__ingredients::-webkit-scrollbar {

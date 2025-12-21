@@ -8,6 +8,7 @@ import {
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 
 export const routes: Routes = [
+  { path: 'add-recipe/:rId', component: AddRecipeComponent },
   { path: 'add-recipe', component: AddRecipeComponent },
   {
     path: '',

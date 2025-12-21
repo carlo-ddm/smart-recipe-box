@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeService } from '../services/recipe.service';
-import { CreateRecipeInput, Unit } from '../models/recipe.models';
+import { CreateRecipeInput, RecipeModel, Unit } from '../models/recipe.models';
 import { DialogService } from '../services/dialog.service';
 
 type IngredientControls = {
@@ -28,9 +28,15 @@ type RecipeFormGroup = FormGroup<{
 })
 export class AddRecipeComponent implements OnInit {
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private recipeService = inject(RecipeService);
   private dialogService = inject(DialogService);
+  private isEdit = signal<boolean>(false);
+  recipe = signal<RecipeModel | null>(null);
 
+  /**
+   * Builds a new ingredient form group with defaults and validators.
+   */
   private createIngredientGroup() {
     return new FormGroup<IngredientControls>({
       name: new FormControl('', {
@@ -64,7 +70,71 @@ export class AddRecipeComponent implements OnInit {
   private snackbarTimeoutId: number | null = null;
 
   ngOnInit(): void {
-    // Intentionally empty.
+    const value = this.route.snapshot.paramMap.get('rId');
+    if (!value) {
+      this.resetFormForCreate();
+      return;
+    }
+
+    const id = Number(value);
+    if (!Number.isFinite(id)) {
+      this.resetFormForCreate();
+      return;
+    }
+
+    const recipe = this.recipeService.getRecipe(id);
+    if (!recipe) {
+      this.openSnackbar('Ricetta non trovata.');
+      this.resetFormForCreate();
+      return;
+    }
+
+    this.setFormFromRecipe(recipe);
+  }
+
+  /**
+   * Resets the form for the create flow and clears any ingredient rows.
+   */
+  private resetFormForCreate() {
+    this.isEdit.set(false);
+    this.recipe.set(null);
+    this.form.reset({
+      name: '',
+      imgUrl: '',
+      description: '',
+      servings: 1,
+      isFavourite: false,
+    });
+    this.form.controls.ingredients.clear();
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
+  }
+
+  /**
+   * Populates the form from an existing recipe and rebuilds ingredient rows.
+   */
+  private setFormFromRecipe(recipe: RecipeModel) {
+    this.isEdit.set(true);
+    this.recipe.set(recipe);
+    this.form.reset({
+      name: recipe.name,
+      imgUrl: recipe.imgUrl,
+      description: recipe.description,
+      servings: recipe.servings,
+      isFavourite: recipe.isFavourite,
+    });
+    this.form.controls.ingredients.clear();
+    for (const ingredient of recipe.ingredients) {
+      const group = this.createIngredientGroup();
+      group.patchValue({
+        name: ingredient.name,
+        quantity: ingredient.quantity,
+        unit: ingredient.unit,
+      });
+      this.form.controls.ingredients.push(group);
+    }
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
   }
 
   get isValidForm() {
@@ -95,6 +165,9 @@ export class AddRecipeComponent implements OnInit {
     this.form.controls.isFavourite.setValue(isChecked);
   }
 
+  /**
+   * Shows a temporary message and resets the timeout if called again.
+   */
   private openSnackbar(message: string) {
     this.snackbarMessage.set(message);
     if (this.snackbarTimeoutId !== null) {
@@ -106,6 +179,9 @@ export class AddRecipeComponent implements OnInit {
     }, 2600);
   }
 
+  /**
+   * Prompts before discarding changes when the form is dirty.
+   */
   openConfirmDiscardDialog() {
     if (!this.form.dirty) {
       this.router.navigate(['../']);
@@ -127,6 +203,9 @@ export class AddRecipeComponent implements OnInit {
       });
   }
 
+  /**
+   * Adds a new ingredient row only after the previous one is valid.
+   */
   addIngredient() {
     if (this.ingredients.length > 0) {
       const lastGroup = this.ingredients.at(this.ingredients.length - 1);
@@ -151,7 +230,13 @@ export class AddRecipeComponent implements OnInit {
       return;
     }
 
-    const recipe: CreateRecipeInput = this.form.getRawValue();
-    this.recipeService.insertNewRecipe(recipe);
+    const getRecipeType = (): RecipeModel | CreateRecipeInput => {
+      return this.isEdit()
+        ? { ...this.form.getRawValue(), id: this.recipe()?.id }
+        : this.form.getRawValue();
+    };
+    console.log(getRecipeType());
+
+    this.recipeService.inserOrUpdatewRecipe(getRecipeType(), this.isEdit());
   }
 }

@@ -37,6 +37,9 @@ export class RecipeDetailComponent {
   }
 }
 
+/**
+ * Resolves a recipe by route id or redirects to the first recipe when invalid.
+ */
 export const resolveRecipe: ResolveFn<RecipeModel | null | UrlTree> = (
   activatedRouteSnapshot: ActivatedRouteSnapshot,
   _routerState: RouterStateSnapshot
@@ -61,6 +64,9 @@ export const resolveRecipe: ResolveFn<RecipeModel | null | UrlTree> = (
   return match;
 };
 
+/**
+ * Resolves the page title from the recipe name, with a fallback label.
+ */
 export const resolveTitle: ResolveFn<string> = (
   activatedRouteSnapshot: ActivatedRouteSnapshot,
   _routerState: RouterStateSnapshot

@@ -9,6 +9,10 @@ export class DialogService {
   private pending?: Promise<boolean>;
   private resolve?: (value: boolean | PromiseLike<boolean>) => void;
 
+  /**
+   * Opens a dialog and returns the pending decision.
+   * If a dialog is already open, the same promise is returned.
+   */
   confirm(config: ConfirmationDialog): Promise<boolean> {
     if (this.pending) {
       return this.pending;
@@ -21,6 +25,9 @@ export class DialogService {
     return this.pending;
   }
 
+  /**
+   * Closes the dialog and resolves any pending confirmation.
+   */
   close(result: boolean) {
     const resolve = this.resolve;
     this.resolve = undefined;
