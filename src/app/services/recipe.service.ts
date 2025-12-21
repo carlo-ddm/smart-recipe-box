@@ -28,4 +28,14 @@ export class RecipeService {
 
     this.router.navigate(['../']);
   }
+
+  deleteRecipe(id: number) {
+    const recipeIndex = this.recipes().findIndex((value: RecipeModel) => value.id === id);
+    this.recipes.update((recipes: RecipeModel[]) =>
+      recipes.filter(
+        (value: RecipeModel, _: number, obj: RecipeModel[]) => obj.indexOf(value) !== recipeIndex
+      )
+    );
+
+  }
 }

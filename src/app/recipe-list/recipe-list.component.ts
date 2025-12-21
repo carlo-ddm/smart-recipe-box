@@ -1,11 +1,19 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RecipeService } from '../services/recipe.service';
-import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
+import { ConfirmationDialogComponent } from '../add-recipe/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialog } from '../models/diaolog.model';
 
 @Component({
   selector: 'app-recipe-list',
-  imports: [FormsModule, RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [FormsModule, RouterLink, RouterLinkActive, RouterOutlet, ConfirmationDialogComponent],
   templateUrl: './recipe-list.component.html',
   styleUrl: './recipe-list.component.scss',
 })
@@ -20,11 +28,30 @@ export class RecipeListComponent {
       recipe.name.toLocaleLowerCase().includes(this.searchRecipe().toLocaleLowerCase())
     );
   });
+  protected readonly confirmationDialog = signal<ConfirmationDialog | null>(null);
 
   private getActiveRecipeId(): number | null {
     const value = this.route.firstChild?.snapshot.paramMap.get('rId');
     const id = Number(value);
     return Number.isFinite(id) ? id : null;
+  }
+
+  protected handleDialogDecision(confirmed: boolean) {
+    const config = this.confirmationDialog();
+    this.confirmationDialog.set(null);
+    config?.action(confirmed);
+  }
+
+  onDeleteRecipe(id: number) {
+    const dialogConfig: ConfirmationDialog = {
+      title: 'Eliminazione',
+      message: 'Confermi di voler eliminare questa ricetta?',
+      action: (confirmed: boolean) => {
+        if (confirmed) this.recipeService.deleteRecipe(id);
+        this.router.navigate(['../']);
+      },
+    };
+    this.confirmationDialog.set(dialogConfig);
   }
 
   onNextRecipe() {

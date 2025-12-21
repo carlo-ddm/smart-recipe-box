@@ -6,13 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './confirmation-dialog.component.html',
   styleUrl: './confirmation-dialog.component.scss',
 })
-export class ConfirmationDialogComponent {
-  closeDialog() {
-    // this.dialogMessage.set(null);
-  }
-
-  confirmDiscard() {
-    // this.dialogMessage.set(null);
-    // this.router.navigate(['../']);
-  }
-}
+export class ConfirmationDialogComponent {}
