@@ -1,10 +1,9 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
-import { ConfirmationDialog } from '../models/diaolog.model';
 import { RecipeService } from '../services/recipe.service';
 import { CreateRecipeInput, Unit } from '../models/recipe.models';
+import { DialogService } from '../services/dialog.service';
 
 type IngredientControls = {
   name: FormControl<string>;
@@ -23,13 +22,14 @@ type RecipeFormGroup = FormGroup<{
 
 @Component({
   selector: 'app-add-recipe',
-  imports: [ReactiveFormsModule, ConfirmationDialogComponent],
+  imports: [ReactiveFormsModule],
   templateUrl: './add-recipe.component.html',
   styleUrl: './add-recipe.component.scss',
 })
 export class AddRecipeComponent implements OnInit {
   private router = inject(Router);
   private recipeService = inject(RecipeService);
+  private dialogService = inject(DialogService);
 
   private createIngredientGroup() {
     return new FormGroup<IngredientControls>({
@@ -60,7 +60,6 @@ export class AddRecipeComponent implements OnInit {
     ingredients: new FormArray<FormGroup<IngredientControls>>([], Validators.minLength(1)),
   });
 
-  protected readonly confirmationDialog = signal<ConfirmationDialog | null>(null);
   protected readonly snackbarMessage = signal<string | null>(null);
   private snackbarTimeoutId: number | null = null;
 
@@ -108,27 +107,24 @@ export class AddRecipeComponent implements OnInit {
   }
 
   openConfirmDiscardDialog() {
-    if (this.form.dirty) {
-      const dialogConfig: ConfirmationDialog = {
-        title: 'Modifiche non salvate',
-        message:
-          'Hai modificato la ricetta ma non l’hai salvata. Vuoi davvero scartare le modifiche?',
-        action: (confirmed: boolean) => {
-          if (confirmed) this.router.navigate(['../']);
-        },
-      };
-
-      this.confirmationDialog.set(dialogConfig);
+    if (!this.form.dirty) {
+      this.router.navigate(['../']);
       return;
     }
 
-    this.router.navigate(['../']);
-  }
-
-  protected handleDialogDecision(confirmed: boolean) {
-    const config = this.confirmationDialog();
-    this.confirmationDialog.set(null);
-    config?.action(confirmed);
+    this.dialogService
+      .confirm({
+        title: 'Modifiche non salvate',
+        message: 'Confermi di voler annullare le modifiche per la creazione della tua ricetta?',
+        confirmText: 'Conferma',
+        cancelText: 'Annulla',
+        variant: 'default',
+      })
+      .then((confirmed) => {
+        if (confirmed) {
+          this.router.navigate(['../']);
+        }
+      });
   }
 
   addIngredient() {

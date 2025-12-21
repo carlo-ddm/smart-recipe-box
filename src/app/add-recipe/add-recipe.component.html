@@ -192,22 +192,3 @@
   </div>
   }
 </section>
-
-@if (confirmationDialog()) {
-<app-confirmation-dialog>
-  <div dialogTitle>
-    <h1>{{ confirmationDialog()?.title }}</h1>
-  </div>
-  <div dialogMessage>
-    <p>{{ confirmationDialog()?.message }}</p>
-  </div>
-  <div dialogActions>
-    <button class="btn btn--secondary" type="button" (click)="handleDialogDecision(false)">
-      Continua a modificare
-    </button>
-    <button class="btn btn--primary" type="button" (click)="handleDialogDecision(true)">
-      Scarta modifiche
-    </button>
-  </div>
-</app-confirmation-dialog>
-}

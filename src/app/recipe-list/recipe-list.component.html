@@ -101,22 +101,3 @@
     </section>
   </div>
 </section>
-
-@if (confirmationDialog()) {
-<app-confirmation-dialog>
-  <div dialogTitle>
-    <h1>{{ confirmationDialog()?.title }}</h1>
-  </div>
-  <div dialogMessage>
-    <p>{{ confirmationDialog()?.message }}</p>
-  </div>
-  <div dialogActions>
-    <button class="btn btn--secondary" type="button" (click)="handleDialogDecision(false)">
-      Continua
-    </button>
-    <button class="btn btn--primary" type="button" (click)="handleDialogDecision(true)">
-      Elimina ricetta
-    </button>
-  </div>
-</app-confirmation-dialog>
-}

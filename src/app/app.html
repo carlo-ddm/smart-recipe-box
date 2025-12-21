@@ -19,4 +19,22 @@
   <section class="app__content">
     <router-outlet />
   </section>
+  @if (dialogConfig() !== null) {
+  <app-confirmation-dialog>
+    <div dialogTitle>
+      <h1>{{ dialogConfig()?.title }}</h1>
+    </div>
+    <div dialogMessage>
+      <p>{{ dialogConfig()?.message }}</p>
+    </div>
+    <div dialogActions>
+      <button class="btn btn--secondary" type="button" (click)="onReject(false)">
+        {{ dialogConfig()?.cancelText }}
+      </button>
+      <button class="btn btn--primary" type="button" (click)="onConfirm(true)">
+        {{ dialogConfig()?.confirmText }}
+      </button>
+    </div>
+  </app-confirmation-dialog>
+  }
 </main>
