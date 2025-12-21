@@ -26,7 +26,10 @@
       <nav class="recipe-list__nav" aria-label="Elenco ricette">
         <ul class="recipe-list__items">
           @for (recipe of filteredRecipe(); track recipe.id) {
-            <li class="recipe-list__item">
+            <li
+              class="recipe-list__item"
+              [class.recipe-list__item--active]="isActiveRecipe(recipe.id)"
+            >
               <a
                 class="recipe-list__link"
                 [routerLink]="[recipe.id]"
@@ -34,13 +37,31 @@
                 [routerLinkActiveOptions]="{ exact: true }"
                 [attr.aria-current]="isActiveRecipe(recipe.id) ? 'page' : null"
               >
-                <span class="recipe-list__link-text">
-                  {{ recipe.name }}
+                <span class="recipe-list__link-content">
+                  <span class="recipe-list__link-text">
+                    {{ recipe.name }}
+                  </span>
+                  @if (recipe.isFavourite) {
+                    <span class="recipe-list__badge">Preferita</span>
+                  }
                 </span>
-                @if (recipe.isFavourite) {
-                  <span class="recipe-list__badge">Preferita</span>
-                }
               </a>
+              <div class="recipe-list__item-actions" aria-label="Azioni ricetta">
+                <button
+                  class="recipe-list__icon-btn recipe-list__icon-btn--edit"
+                  type="button"
+                  aria-label="Modifica ricetta"
+                >
+                  <span aria-hidden="true">✎</span>
+                </button>
+                <button
+                  class="recipe-list__icon-btn recipe-list__icon-btn--delete"
+                  type="button"
+                  aria-label="Elimina ricetta"
+                >
+                  <span aria-hidden="true">🗑</span>
+                </button>
+              </div>
             </li>
           }
         </ul>
