@@ -235,7 +235,6 @@ export class AddRecipeComponent implements OnInit {
         ? { ...this.form.getRawValue(), id: this.recipe()?.id }
         : this.form.getRawValue();
     };
-    console.log(getRecipeType());
 
     this.recipeService.inserOrUpdatewRecipe(getRecipeType(), this.isEdit());
   }

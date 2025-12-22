@@ -39,7 +39,11 @@ export class RecipeService {
 
       this.recipes.update((recipes) => [...recipes, newRecipe]);
     } else {
-      // TODO
+      debugger;
+      const editedRecipe = <RecipeModel>{ ...value };
+      this.recipes.update((recipes) =>
+        recipes.map((r) => (r.id === editedRecipe.id ? editedRecipe : r))
+      );
     }
 
     this.router.navigate(['../']);
