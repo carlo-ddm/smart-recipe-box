@@ -1,4 +1,14 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  OnChanges,
+  OnInit,
+  signal,
+  SimpleChanges,
+} from '@angular/core';
 import { RecipeService } from '../services/recipe.service';
 import {
   ActivatedRouteSnapshot,
@@ -18,6 +28,12 @@ import { RecipeModel } from '../models/recipe.models';
 export class RecipeDetailComponent {
   protected readonly recipe = input<RecipeModel | null>(null);
   protected readonly servings = signal<number>(1);
+  private readonly syncServings = effect(() => {
+    const recipe = this.recipe();
+    if (recipe) {
+      this.servings.set(recipe.servings);
+    }
+  });
   protected readonly adjustedIngredients = computed(() =>
     this.recipe()?.ingredients.map((ingredient) => ({
       ...ingredient,
